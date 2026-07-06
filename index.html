@@ -5,22 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light">
-<title>智慧社區 LINE 方案｜社群貼文排程審核</title>
+<title>Livmii 社區智能管理助手｜社群貼文排程審核</title>
 <style>
   :root{
-    /* Palette — LINE 綠為品牌主色, 深墨藍為信任底, 暖橘做 CTA 強調 */
-    --ink:#12211c;          /* near-black with a green bias */
-    --ink-soft:#3a4a44;
-    --paper:#f5f7f4;        /* off-white, faint green tint */
+    /* Livmii palette — 薄荷綠→天空藍漸層為核心, 深墨藍為字, 明亮淺藍白為底 */
+    --ink:#2b3a55;           /* brand deep navy — 標題與內文 */
+    --ink-soft:#5f6d84;      /* muted navy-gray */
+    --paper:#f3f8fc;         /* light airy blue-white */
     --card:#ffffff;
-    --line:#dfe6e1;
-    --green:#06c755;        /* LINE brand green */
-    --green-deep:#04964a;
-    --navy:#16324a;         /* trust navy */
-    --amber-solid:#f59e0b;  /* CTA accent */
-    --amber-soft:#fff3e0;
-    --shadow:0 1px 2px rgba(18,33,28,.04),0 8px 24px rgba(18,33,28,.06);
-    --shadow-lift:0 2px 6px rgba(18,33,28,.08),0 18px 44px rgba(18,33,28,.12);
+    --line:#e2ebf3;
+    --mint:#5fd1a8;          /* Livmii mint green */
+    --sky:#3b9be8;           /* Livmii sky blue */
+    --grad:linear-gradient(115deg,#5fd1a8 0%,#3b9be8 100%);
+    --grad-soft:linear-gradient(115deg,rgba(95,209,168,.14),rgba(59,155,232,.14));
+    --tint:#eaf4fb;          /* pale blue tint for chips/icons */
+    --amber:#f2a33c;         /* warm CTA accent, softened to fit brand */
+    --amber-soft:#fff4e4;
+    --shadow:0 1px 2px rgba(43,58,85,.04),0 10px 26px rgba(59,155,232,.08);
+    --shadow-lift:0 2px 8px rgba(43,58,85,.08),0 20px 46px rgba(59,155,232,.16);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -30,27 +32,42 @@
     line-height:1.65;-webkit-font-smoothing:antialiased;
   }
   .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
   /* ---------- Masthead ---------- */
   header.mast{
+    position:relative;overflow:hidden;
     background:
-      radial-gradient(1200px 400px at 80% -120px, rgba(6,199,85,.14), transparent 60%),
-      linear-gradient(180deg,#fff, var(--paper));
+      radial-gradient(900px 360px at 88% -120px, rgba(95,209,168,.20), transparent 62%),
+      radial-gradient(1000px 420px at 12% -80px, rgba(59,155,232,.16), transparent 60%),
+      linear-gradient(180deg,#ffffff, var(--paper));
     border-bottom:1px solid var(--line);
   }
-  .mast-inner{padding:52px 0 40px;display:flex;flex-direction:column;gap:22px}
+  /* soft cloud blobs echoing the cover art */
+  header.mast::before,header.mast::after{
+    content:"";position:absolute;border-radius:50%;filter:blur(6px);opacity:.5;pointer-events:none
+  }
+  header.mast::before{width:220px;height:120px;background:#dff3ea;top:40px;right:8%}
+  header.mast::after{width:260px;height:130px;background:#e2f0fb;bottom:-30px;right:26%}
+  .mast-inner{position:relative;padding:50px 0 42px;display:flex;flex-direction:column;gap:20px;z-index:1}
+
+  .brand-lockup{display:flex;align-items:center;gap:14px}
+  .logo-badge{width:56px;height:56px;flex:none}
+  .brand-lockup .bt{display:flex;flex-direction:column;line-height:1.15}
+  .brand-lockup .bt .nm{font-size:30px;font-weight:800;letter-spacing:-.01em}
+  .brand-lockup .bt .sub{font-size:13.5px;color:var(--ink-soft);letter-spacing:.28em;padding-left:2px}
+
   .badge{
     display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
     background:#fff;border:1px solid var(--line);border-radius:999px;
-    padding:7px 15px;font-size:13px;font-weight:600;color:var(--green-deep);
+    padding:7px 15px;font-size:13px;font-weight:600;color:var(--sky);
     box-shadow:var(--shadow);letter-spacing:.02em;
   }
-  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(6,199,85,.18)}
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(95,209,168,.22)}
   h1.title{
-    margin:0;font-size:clamp(30px,5vw,50px);line-height:1.08;font-weight:800;
+    margin:0;font-size:clamp(28px,4.6vw,46px);line-height:1.1;font-weight:800;
     letter-spacing:-.02em;text-wrap:balance;
   }
-  h1.title .em{color:var(--green-deep)}
   .lede{margin:0;max-width:60ch;font-size:clamp(16px,2.1vw,19px);color:var(--ink-soft)}
   .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
   .chip{
@@ -58,10 +75,10 @@
     padding:9px 14px;font-size:13.5px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)
   }
   .chip b{font-weight:700;font-variant-numeric:tabular-nums}
-  .chip.k-green{border-color:rgba(6,199,85,.35);background:rgba(6,199,85,.06)}
+  .chip.k-brand{border-color:rgba(59,155,232,.32);background:var(--tint)}
 
   .note{
-    margin-top:8px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--amber-solid);
+    margin-top:8px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--mint);
     border-radius:12px;padding:16px 18px;font-size:14.5px;color:var(--ink-soft);box-shadow:var(--shadow);
     max-width:72ch
   }
@@ -70,16 +87,16 @@
   /* ---------- Legend ---------- */
   .legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:6px;font-size:13.5px;color:var(--ink-soft)}
   .legend .tag{display:inline-flex;align-items:center;gap:7px}
-  .swatch{width:12px;height:12px;border-radius:3px}
-  .sw-edu{background:var(--navy)}
-  .sw-fea{background:var(--green)}
-  .sw-cta{background:var(--amber-solid)}
+  .swatch{width:12px;height:12px;border-radius:4px}
+  .sw-edu{background:var(--sky)}
+  .sw-fea{background:var(--mint)}
+  .sw-cta{background:var(--amber)}
 
   /* ---------- Week heading ---------- */
   .week{margin:44px 0 22px;display:flex;align-items:baseline;gap:16px}
   .week h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.01em}
   .week .wk-sub{font-size:14px;color:var(--ink-soft)}
-  .week .rule{flex:1;height:1px;background:var(--line)}
+  .week .rule{flex:1;height:2px;border-radius:2px;background:var(--grad-soft)}
 
   /* ---------- Post card ---------- */
   .grid{display:grid;grid-template-columns:1fr;gap:26px}
@@ -91,76 +108,97 @@
   }
   .post:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px)}
 
-  /* card header row */
   .p-head{display:flex;align-items:center;gap:11px;padding:14px 16px;border-bottom:1px solid var(--line)}
   .avatar{
-    width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;
-    background:linear-gradient(135deg,var(--green),var(--green-deep));color:#fff;font-weight:800;font-size:15px;
-    box-shadow:0 2px 8px rgba(6,199,85,.35)
+    width:42px;height:42px;border-radius:50%;flex:none;background:#fff;border:1px solid var(--line);
+    display:grid;place-items:center;box-shadow:0 2px 8px rgba(59,155,232,.16);overflow:hidden
   }
+  .avatar svg{width:30px;height:30px}
   .p-brand{display:flex;flex-direction:column;line-height:1.25;min-width:0}
   .p-brand .name{font-weight:700;font-size:14.5px}
   .p-brand .when{font-size:12.5px;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
   .p-brand .when svg{width:12px;height:12px;opacity:.6}
-  .p-num{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink-soft);font-variant-numeric:tabular-nums;
-    background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:4px 9px}
+  .p-num{margin-left:auto;font-size:12px;font-weight:700;color:var(--sky);font-variant-numeric:tabular-nums;
+    background:var(--tint);border:1px solid var(--line);border-radius:8px;padding:4px 9px}
 
-  /* mockup image area */
-  .mock{aspect-ratio:1200/700;width:100%;position:relative;overflow:hidden;background:#eef2ef}
+  .mock{aspect-ratio:1200/700;width:100%;position:relative;overflow:hidden;background:#eef5fb}
   .mock svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-  /* type tag on mock */
   .type-tag{
     position:absolute;top:12px;left:12px;z-index:2;font-size:11.5px;font-weight:700;
-    padding:5px 10px;border-radius:8px;color:#fff;letter-spacing:.03em;backdrop-filter:blur(2px)
+    padding:5px 10px;border-radius:8px;color:#fff;letter-spacing:.03em
   }
-  .t-edu{background:rgba(22,50,74,.92)}
-  .t-fea{background:rgba(4,150,74,.92)}
-  .t-cta{background:rgba(245,158,11,.95)}
+  .t-edu{background:rgba(59,155,232,.94)}
+  .t-fea{background:rgba(63,180,150,.94)}
+  .t-cta{background:rgba(242,163,60,.96)}
 
-  /* caption body */
   .p-body{padding:16px 18px 6px;font-size:14.7px;line-height:1.72}
   .p-body .kicker{font-weight:800;font-size:15.5px;display:block;margin-bottom:8px;letter-spacing:-.01em}
   .p-body p{margin:0 0 10px}
-  .p-body .soft{color:var(--ink-soft)}
   .p-cta{
     margin:6px 0 2px;display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:14px;
-    color:var(--green-deep);background:rgba(6,199,85,.08);border:1px solid rgba(6,199,85,.3);
+    color:var(--sky);background:var(--tint);border:1px solid rgba(59,155,232,.3);
     padding:8px 13px;border-radius:10px
   }
-  .p-cta.amber{color:#b45309;background:var(--amber-soft);border-color:rgba(245,158,11,.4)}
+  .p-cta.amber{color:#b06d1a;background:var(--amber-soft);border-color:rgba(242,163,60,.42)}
 
-  /* card footer: production spec */
   .p-foot{margin-top:auto;padding:13px 18px;border-top:1px dashed var(--line);background:var(--paper);
     font-size:12.8px;color:var(--ink-soft)}
   .p-foot .lab{font-weight:700;color:var(--ink);letter-spacing:.02em}
   .p-foot .img-hint{margin-top:4px}
-  .p-foot .cta-hint{margin-top:6px;display:flex;align-items:center;gap:6px}
 
   footer{margin:56px 0 40px;padding-top:28px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:13.5px}
   footer b{color:var(--ink)}
   footer .fnote{max-width:74ch;margin:0 0 8px}
-</style>
 
+  /* brand spec strip */
+  .spec{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+  .spec .s{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+    border-radius:10px;padding:7px 12px;font-size:12.5px;box-shadow:var(--shadow)}
+  .spec .sw{width:16px;height:16px;border-radius:5px}
+</style>
 </head>
 <body>
 <header class="mast">
   <div class="wrap mast-inner">
+    <div class="brand-lockup">
+      <!-- Livmii mark: house + chat + wifi, brand gradient -->
+      <svg class="logo-badge" viewBox="0 0 100 100" fill="none" aria-label="Livmii logo">
+        <defs><linearGradient id="lg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5fd1a8"/><stop offset="1" stop-color="#3b9be8"/></linearGradient></defs>
+        <path d="M22 54 L50 30 L78 54 V80 a4 4 0 0 1 -4 4 H26 a4 4 0 0 1 -4 -4 Z" stroke="url(#lg)" stroke-width="5" stroke-linejoin="round"/>
+        <rect x="36" y="50" width="30" height="22" rx="7" stroke="url(#lg)" stroke-width="5"/>
+        <path d="M46 72 l0 7 6 -5" stroke="url(#lg)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="45" cy="61" r="2.6" fill="#3b9be8"/><circle cx="57" cy="61" r="2.6" fill="#3b9be8"/>
+        <path d="M70 44 a10 10 0 0 1 10 -10" stroke="url(#lg)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M70 38 a16 16 0 0 1 16 -16" stroke="url(#lg)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div class="bt"><span class="nm grad-text">Livmii</span><span class="sub">社區智能管理助手</span></div>
+    </div>
+
     <span class="badge"><span class="dot"></span>社群貼文排程・審核用預覽</span>
-    <h1 class="title">智慧社區 <span class="em">LINE 整合方案</span><br>一個月粉專內容排程</h1>
-    <p class="lede">以下為 7/7–8/1 共 12 篇貼文的完整文案、配圖方向與發文排程。每張圖為「示意 mockup」，用來確認視覺方向；正式發文時再替換為設計成品或產品實際截圖。</p>
+    <h1 class="title">一個月粉專內容排程　<span class="grad-text">智慧生活・從社區開始</span></h1>
+    <p class="lede">以下為 7/7–8/1 共 12 篇貼文的完整文案、配圖方向與發文排程，並套用 Livmii 品牌視覺（薄荷綠→天空藍漸層＋機器人吉祥物）。每張圖為示意 mockup，用來確認方向；正式發文再替換為設計成品或產品截圖。</p>
+
     <div class="meta-row">
-      <span class="chip k-green">📅 <b>12</b>&nbsp;篇貼文</span>
+      <span class="chip k-brand">📅 <b>12</b>&nbsp;篇貼文</span>
       <span class="chip">🗓 每週一・三・五</span>
       <span class="chip">🎯 客群：管委會 × 物業公司 × 包租代管</span>
       <span class="chip">📊 教育 6 ・ 功能 4 ・ 轉換 2</span>
     </div>
+
+    <div class="spec">
+      <span class="s"><span class="sw" style="background:#5fd1a8"></span>薄荷綠 #5FD1A8</span>
+      <span class="s"><span class="sw" style="background:#3b9be8"></span>天空藍 #3B9BE8</span>
+      <span class="s"><span class="sw" style="background:#2b3a55"></span>墨藍字 #2B3A55</span>
+      <span class="s"><span class="sw" style="background:#f2a33c"></span>暖橘 CTA #F2A33C</span>
+    </div>
+
     <div class="legend">
       <span class="tag"><span class="swatch sw-edu"></span>痛點教育文</span>
       <span class="tag"><span class="swatch sw-fea"></span>功能／案例文</span>
       <span class="tag"><span class="swatch sw-cta"></span>轉換促購文</span>
     </div>
     <div class="note">
-      <b>給老闆看的重點：</b>先確認 ①文案語氣與賣點對不對 ②每篇的配圖方向 ③發文順序與節奏。圖片為程式繪製的示意稿，非最終成品——確認方向後再交設計精修或換上真實後台截圖即可。
+      <b>給老闆看的重點：</b>先確認 ①文案語氣與賣點 ②每篇配圖方向（已套 Livmii 品牌風＋機器人）③發文順序與節奏。圖為程式繪製示意稿，非最終成品——確認方向後再交設計精修或換上真實後台截圖即可。
     </div>
   </div>
 </header>
@@ -168,193 +206,224 @@
 <main class="wrap" id="app"></main>
 
 <footer class="wrap">
-  <p class="fnote"><b>下一步建議：</b>本排程中 <b>#4 物業後台、#11 免費方案、#12 快速上線</b> 三篇最適合另外拿去投 FB／IG 名單型廣告收詢價。介面類的 #3、#4、#9 建議正式發文時改用真實產品截圖，說服力最佳。</p>
-  <p class="fnote">配圖規範：LINE 綠 #06C755 為主色・信任墨藍 #16324A 為輔・暖橘 #F59E0B 做 CTA・統一黑體標題與 LOGO 位置，確保 12 篇成為同一系列。</p>
+  <p class="fnote"><b>下一步建議：</b>本排程中 <b>#4 物業後台、#11 免費方案、#12 快速上線</b> 三篇最適合另外拿去投 FB／IG 名單型廣告收詢價。介面類的 #3、#4、#9 建議正式發文時改用真實產品截圖。</p>
+  <p class="fnote"><b>品牌視覺規範：</b>主漸層薄荷綠 #5FD1A8 →天空藍 #3B9BE8・墨藍字 #2B3A55・明亮淺藍白底＋雲朵色塊・每篇盡量讓 Livmii 機器人吉祥物露臉・文字一律後製疊上（AI 生中文易出錯）。</p>
 </footer>
 
 <script>
-/* ---- mockup illustrations, drawn as inline SVG per post ---- */
-const G="#06c755",GD="#04964a",NV="#16324a",AM="#f59e0b",PA="#eef2ef",W="#ffffff",INK="#12211c",MUTE="#7d8b84";
+/* ---- Livmii palette ---- */
+const MINT="#5fd1a8",SKY="#3b9be8",NAVY="#2b3a55",TINT="#eaf4fb",TINT2="#dcecf8",W="#ffffff",MUTE="#8fa0b6",AMBER="#f2a33c",PAPER="#f3f8fc";
 
-// small helpers reused across scenes
-const phone=(x,y,w,h,screen)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w*0.13}" fill="#1f2c27"/><rect x="${x+w*0.06}" y="${y+h*0.05}" width="${w*0.88}" height="${h*0.9}" rx="${w*0.08}" fill="${screen}"/>`;
+/* reusable defs: brand gradient (unique id per scene to avoid collisions) */
+function defs(id){return `<defs>
+  <linearGradient id="${id}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="${MINT}"/><stop offset="1" stop-color="${SKY}"/></linearGradient>
+</defs>`;}
+
+/* soft cloud-ish bg blobs */
+const bg=(f=PAPER)=>`<rect width="1200" height="700" fill="${f}"/>
+  <ellipse cx="230" cy="120" rx="180" ry="80" fill="#ffffff" opacity=".6"/>
+  <ellipse cx="980" cy="150" rx="200" ry="90" fill="#e5f1fb" opacity=".7"/>
+  <ellipse cx="1050" cy="560" rx="170" ry="80" fill="#e2f4ec" opacity=".6"/>`;
+
+/* Livmii robot mascot — parametric (cx,cy,scale, optional gesture) */
+function robot(cx,cy,s,id){
+  return `<g transform="translate(${cx} ${cy}) scale(${s})">
+    <!-- antenna -->
+    <line x1="0" y1="-58" x2="0" y2="-40" stroke="url(#${id})" stroke-width="4"/><circle cx="0" cy="-62" r="6" fill="${MINT}"/>
+    <!-- head -->
+    <rect x="-46" y="-42" width="92" height="74" rx="26" fill="#ffffff" stroke="url(#${id})" stroke-width="4"/>
+    <!-- face screen -->
+    <rect x="-34" y="-30" width="68" height="50" rx="18" fill="${NAVY}"/>
+    <!-- smiling eyes -->
+    <path d="M-18 -8 q6 -9 12 0" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M6 -8 q6 -9 12 0" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- ears -->
+    <circle cx="-46" cy="-6" r="7" fill="${MINT}"/><circle cx="46" cy="-6" r="7" fill="${SKY}"/>
+    <!-- body -->
+    <rect x="-30" y="34" width="60" height="42" rx="16" fill="#ffffff" stroke="url(#${id})" stroke-width="4"/>
+    <circle cx="0" cy="55" r="6" fill="${MINT}"/>
+  </g>`;
+}
 
 const scenes = {
-  // #1 split: phone (LINE) <-> laptop (dashboard)
-  s1:`<rect width="1200" height="700" fill="url(#g1)"/>
-    <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eafaf1"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
-    ${phone(230,150,220,400,"#f4fbf6")}
-    <rect x="255" y="205" width="170" height="34" rx="8" fill="${G}"/><rect x="255" y="255" width="170" height="34" rx="8" fill="#d7f2e2"/><rect x="255" y="305" width="170" height="34" rx="8" fill="#d7f2e2"/><rect x="255" y="355" width="170" height="34" rx="8" fill="#d7f2e2"/>
-    <path d="M500 350 h200" stroke="${G}" stroke-width="6" stroke-dasharray="2 16" stroke-linecap="round"/>
-    <path d="M690 335 l24 15 -24 15 z" fill="${GD}"/>
-    <rect x="720" y="210" width="330" height="220" rx="12" fill="${W}" stroke="#dfe6e1" stroke-width="2"/>
-    <rect x="720" y="210" width="330" height="34" rx="12" fill="${NV}"/>
-    <rect x="745" y="270" width="90" height="60" rx="6" fill="#e8f6ee"/><rect x="855" y="270" width="90" height="60" rx="6" fill="#e8f6ee"/><rect x="965" y="270" width="60" height="60" rx="6" fill="${G}" opacity=".85"/>
-    <rect x="745" y="350" width="280" height="12" rx="6" fill="#e4eae6"/><rect x="745" y="374" width="200" height="12" rx="6" fill="#e4eae6"/>
-    <rect x="800" y="450" width="170" height="52" rx="10" fill="#0d3b2e"/>`,
+  // #1 mascot + app phone + community
+  s1:(id)=>bg()+defs(id)+`
+    ${[[0,0],[1,0],[0,1],[1,1]].map(p=>`<rect x="${770+p[0]*135}" y="${170+p[1]*135}" width="118" height="118" rx="22" fill="#eef6fd" stroke="${TINT2}" stroke-width="2"/>`).join("")}
+    ${["公告","報修","住戶","意見"].map((t,i)=>`<text x="${829+(i%2)*135}" y="${242+Math.floor(i/2)*135}" font-size="26" fill="${SKY}" text-anchor="middle" font-weight="700">${t}</text>`).join("")}
+    <rect x="720" y="140" width="410" height="420" rx="34" fill="none" stroke="url(#${id})" stroke-width="5"/>
+    ${robot(300,340,2.4,id)}
+    <path d="M470 340 q60 -30 120 0" stroke="url(#${id})" stroke-width="5" fill="none" stroke-dasharray="2 14" stroke-linecap="round"/>`,
 
-  // #2 visitor 4-step
-  s2:`<rect width="1200" height="700" fill="#f3faf5"/>
-    ${[0,1,2,3].map(i=>`<circle cx="${180+i*290}" cy="300" r="66" fill="${W}" stroke="${G}" stroke-width="4"/>`).join("")}
-    ${[0,1,2].map(i=>`<path d="M${256+i*290} 300 h158" stroke="${GD}" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round"/>`).join("")}
-    <text x="180" y="312" font-size="46" text-anchor="middle">📱</text>
-    <text x="470" y="312" font-size="46" text-anchor="middle">🅿️</text>
-    <text x="760" y="312" font-size="46" text-anchor="middle">🔳</text>
-    <text x="1050" y="312" font-size="46" text-anchor="middle">🛡️</text>
-    ${["預約","配車位","QR證","放行"].map((t,i)=>`<text x="${180+i*290}" y="420" font-size="26" fill="${INK}" font-weight="700" text-anchor="middle">${t}</text>`).join("")}
-    <rect x="360" y="510" width="480" height="46" rx="23" fill="${NV}"/>
-    <text x="600" y="540" font-size="22" fill="#dff3ff" text-anchor="middle">全程留痕・可追責</text>`,
+  // #2 visitor 4-step + robot at end
+  s2:(id)=>bg("#eef6fd")+defs(id)+`
+    ${[0,1,2,3].map(i=>`<circle cx="${170+i*250}" cy="300" r="62" fill="${W}" stroke="url(#${id})" stroke-width="5"/>`).join("")}
+    ${[0,1,2].map(i=>`<path d="M${242+i*250} 300 h108" stroke="url(#${id})" stroke-width="5" stroke-dasharray="2 13" stroke-linecap="round"/>`).join("")}
+    <text x="170" y="314" font-size="44" text-anchor="middle">📱</text>
+    <text x="420" y="314" font-size="44" text-anchor="middle">🅿️</text>
+    <text x="670" y="314" font-size="44" text-anchor="middle">🔳</text>
+    <text x="920" y="314" font-size="44" text-anchor="middle">🚪</text>
+    ${["預約","配車位","QR證","放行"].map((t,i)=>`<text x="${170+i*250}" y="404" font-size="24" fill="${NAVY}" font-weight="700" text-anchor="middle">${t}</text>`).join("")}
+    ${robot(1080,300,1.5,id)}
+    <rect x="360" y="500" width="480" height="46" rx="23" fill="${TINT}" stroke="${TINT2}"/>
+    <text x="600" y="530" font-size="22" fill="${SKY}" text-anchor="middle" font-weight="700">全程留痕・可追責</text>`,
 
-  // #3 repair ticket progress on phone
-  s3:`<rect width="1200" height="700" fill="#eef5f1"/>
-    ${phone(450,90,300,520,"#ffffff")}
-    <rect x="490" y="150" width="220" height="30" rx="8" fill="${NV}"/>
-    <rect x="490" y="205" width="220" height="120" rx="10" fill="#e9eef0"/><text x="600" y="275" font-size="40" text-anchor="middle">💧</text>
-    <circle cx="510" cy="380" r="13" fill="${G}"/><circle cx="600" cy="380" r="13" fill="${G}"/><circle cx="690" cy="380" r="13" fill="#cdd6d1"/>
-    <path d="M510 380 h90" stroke="${G}" stroke-width="5"/><path d="M600 380 h90" stroke="#cdd6d1" stroke-width="5"/>
-    <text x="510" y="420" font-size="16" fill="${INK}" text-anchor="middle" font-weight="700">已上報</text>
-    <text x="600" y="420" font-size="16" fill="${GD}" text-anchor="middle" font-weight="700">處理中</text>
-    <text x="690" y="420" font-size="16" fill="${MUTE}" text-anchor="middle">完工</text>
-    <rect x="490" y="470" width="220" height="42" rx="10" fill="${G}"/><text x="600" y="497" font-size="18" fill="#fff" text-anchor="middle" font-weight="700">進度看得到 ✓</text>`,
+  // #3 repair phone + robot with wrench
+  s3:(id)=>bg("#eef6fd")+defs(id)+`
+    <rect x="380" y="90" width="300" height="520" rx="40" fill="#fff" stroke="url(#${id})" stroke-width="5"/>
+    <rect x="420" y="150" width="220" height="30" rx="8" fill="url(#${id})"/>
+    <rect x="420" y="205" width="220" height="115" rx="12" fill="#eef6fd"/><text x="530" y="275" font-size="40" text-anchor="middle">💧</text>
+    <circle cx="440" cy="375" r="12" fill="${MINT}"/><circle cx="530" cy="375" r="12" fill="${SKY}"/><circle cx="620" cy="375" r="12" fill="#cdd9e6"/>
+    <path d="M440 375 h90" stroke="${MINT}" stroke-width="5"/><path d="M530 375 h90" stroke="#cdd9e6" stroke-width="5"/>
+    <text x="440" y="415" font-size="15" fill="${NAVY}" text-anchor="middle" font-weight="700">已上報</text>
+    <text x="530" y="415" font-size="15" fill="${SKY}" text-anchor="middle" font-weight="700">處理中</text>
+    <text x="620" y="415" font-size="15" fill="${MUTE}" text-anchor="middle">完工</text>
+    <rect x="420" y="465" width="220" height="42" rx="10" fill="url(#${id})"/><text x="530" y="492" font-size="18" fill="#fff" text-anchor="middle" font-weight="700">進度看得到 ✓</text>
+    ${robot(900,330,1.7,id)}<text x="900" y="250" font-size="40" text-anchor="middle">🔧</text>`,
 
-  // #4 multi-site dashboard
-  s4:`<rect width="1200" height="700" fill="#0f2233"/>
-    <rect x="120" y="110" width="960" height="480" rx="16" fill="#13293d"/>
-    <rect x="120" y="110" width="960" height="46" rx="16" fill="${NV}"/>
-    <circle cx="150" cy="133" r="7" fill="#2f5170"/><circle cx="174" cy="133" r="7" fill="#2f5170"/>
-    <!-- map -->
-    <rect x="150" y="185" width="430" height="360" rx="12" fill="#0d1e2c"/>
-    ${[[240,270],[380,240],[300,360],[470,410],[210,450],[500,300]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="10" fill="${G}"/><circle cx="${p[0]}" cy="${p[1]}" r="18" fill="none" stroke="${G}" stroke-opacity=".4" stroke-width="3"/>`).join("")}
-    <!-- pie -->
-    <circle cx="720" cy="285" r="70" fill="none" stroke="#1c3a52" stroke-width="26"/>
-    <circle cx="720" cy="285" r="70" fill="none" stroke="${G}" stroke-width="26" stroke-dasharray="330 440" transform="rotate(-90 720 285)"/>
-    <!-- bars -->
-    ${[80,140,110,175,130].map((h,i)=>`<rect x="${840+i*44}" y="${520-h}" width="26" height="${h}" rx="5" fill="${i===3?G:'#2b5b7d'}"/>`).join("")}
-    <rect x="700" y="470" width="300" height="12" rx="6" fill="#1c3a52"/>`,
+  // #4 dashboard + robot manager
+  s4:(id)=>bg()+defs(id)+`
+    <rect x="150" y="120" width="720" height="470" rx="18" fill="#fff" stroke="url(#${id})" stroke-width="4"/>
+    <rect x="150" y="120" width="720" height="44" rx="18" fill="url(#${id})"/>
+    <circle cx="180" cy="142" r="6" fill="#fff" opacity=".8"/><circle cx="202" cy="142" r="6" fill="#fff" opacity=".8"/>
+    <rect x="180" y="195" width="330" height="360" rx="12" fill="#eef6fd"/>
+    ${[[260,290],[400,255],[320,380],[450,440],[220,470],[500,320]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="${SKY}"/><circle cx="${p[0]}" cy="${p[1]}" r="17" fill="none" stroke="${MINT}" stroke-opacity=".55" stroke-width="3"/>`).join("")}
+    <circle cx="630" cy="300" r="62" fill="none" stroke="${TINT2}" stroke-width="24"/>
+    <circle cx="630" cy="300" r="62" fill="none" stroke="url(#${id})" stroke-width="24" stroke-dasharray="270 390" transform="rotate(-90 630 300)"/>
+    ${[70,120,95,150,110].map((h,i)=>`<rect x="${560+i*40}" y="${530-h}" width="24" height="${h}" rx="5" fill="${i===3?SKY:TINT2}"/>`).join("")}
+    ${robot(990,360,1.7,id)}`,
 
-  // #5 landlord lifestyle
-  s5:`<rect width="1200" height="700" fill="#f4faf6"/>
-    ${[0,1,2,3].map(i=>`<rect x="${120+i*150}" y="${360-i*10}" width="120" height="${260+i*20}" rx="8" fill="#dfeee6"/>`).join("")}
-    ${[0,1,2,3].map(i=>[...Array(4)].map((_,r)=>`<rect x="${140+i*150}" y="${390-i*10+r*40}" width="80" height="22" rx="4" fill="#c7ddd0"/>`).join("")).join("")}
-    ${phone(760,210,230,410,"#ffffff")}
-    <circle cx="875" cy="330" r="52" fill="#e8f6ee"/><text x="875" y="348" font-size="46" text-anchor="middle">🧑‍💼</text>
-    <rect x="640" y="250" width="150" height="44" rx="22" fill="${W}" stroke="${G}" stroke-width="2"/><text x="715" y="278" font-size="18" text-anchor="middle" fill="${GD}" font-weight="700">租金已收 ✓</text>
-    <rect x="640" y="440" width="180" height="44" rx="22" fill="${W}" stroke="${AM}" stroke-width="2"/><text x="730" y="468" font-size="17" text-anchor="middle" fill="#b45309" font-weight="700">報修處理中 🔧</text>`,
+  // #5 landlord + bubbles + robot assistant
+  s5:(id)=>bg("#f0f7ec")+defs(id)+`
+    ${[0,1,2,3].map(i=>`<rect x="${110+i*140}" y="${360-i*8}" width="112" height="${250+i*16}" rx="10" fill="#dcefe4" stroke="#cbe6d7" stroke-width="2"/>`).join("")}
+    ${[0,1,2,3].map(i=>[0,1,2,3].map(r=>`<rect x="${128+i*140}" y="${388-i*8+r*40}" width="76" height="20" rx="4" fill="#c2e0d1"/>`).join("")).join("")}
+    <rect x="740" y="200" width="230" height="410" rx="34" fill="#fff" stroke="url(#${id})" stroke-width="5"/>
+    <circle cx="855" cy="330" r="50" fill="#eef6fd"/><text x="855" y="347" font-size="44" text-anchor="middle">🧑‍💼</text>
+    <rect x="600" y="250" width="160" height="44" rx="22" fill="${W}" stroke="${MINT}" stroke-width="2"/><text x="680" y="278" font-size="17" text-anchor="middle" fill="#2f9e78" font-weight="700">租金已收 ✓</text>
+    <rect x="600" y="440" width="185" height="44" rx="22" fill="${W}" stroke="${AMBER}" stroke-width="2"/><text x="692" y="468" font-size="16" text-anchor="middle" fill="#b06d1a" font-weight="700">報修處理中 🔧</text>
+    ${robot(1050,470,1.25,id)}`,
 
-  // #6 elder friendly
-  s6:`<rect width="1200" height="700" fill="#fff7ec"/>
-    <circle cx="420" cy="330" r="140" fill="#ffe9c9"/><text x="420" y="380" font-size="150" text-anchor="middle">👵</text>
-    ${phone(680,140,250,430,"#f4fbf6")}
-    <rect x="710" y="200" width="90" height="90" rx="14" fill="${G}"/><rect x="810" y="200" width="90" height="90" rx="14" fill="#d7f2e2"/>
-    <rect x="710" y="300" width="90" height="90" rx="14" fill="#d7f2e2"/><rect x="810" y="300" width="90" height="90" rx="14" fill="${G}"/>
-    <rect x="710" y="410" width="190" height="60" rx="14" fill="#d7f2e2"/>
-    <circle cx="980" cy="180" r="52" fill="${AM}"/><text x="980" y="197" font-size="34" text-anchor="middle">🚫</text>
-    <text x="980" y="260" font-size="18" fill="#b45309" text-anchor="middle" font-weight="700">免下載</text>`,
+  // #6 elder + big buttons + robot companion
+  s6:(id)=>bg("#f5f9fd")+defs(id)+`
+    <circle cx="360" cy="330" r="135" fill="#eaf4fb"/><text x="360" y="378" font-size="140" text-anchor="middle">👵</text>
+    <rect x="640" y="140" width="250" height="430" rx="36" fill="#fff" stroke="url(#${id})" stroke-width="5"/>
+    <rect x="668" y="200" width="88" height="88" rx="18" fill="url(#${id})"/><rect x="770" y="200" width="88" height="88" rx="18" fill="#dcecf8"/>
+    <rect x="668" y="300" width="88" height="88" rx="18" fill="#dcecf8"/><rect x="770" y="300" width="88" height="88" rx="18" fill="url(#${id})"/>
+    <rect x="668" y="410" width="190" height="60" rx="18" fill="#dcecf8"/>
+    <circle cx="985" cy="180" r="50" fill="${AMBER}"/><text x="985" y="196" font-size="32" text-anchor="middle">🚫</text>
+    <text x="985" y="258" font-size="17" fill="#b06d1a" text-anchor="middle" font-weight="700">免下載</text>
+    ${robot(1050,470,1.2,id)}`,
 
-  // #7 security shield
-  s7:`<rect width="1200" height="700" fill="#0f2233"/>
-    <path d="M600 130 l150 55 v150 c0 130 -90 210 -150 250 c-60 -40 -150 -120 -150 -250 v-150 z" fill="#13293d" stroke="${G}" stroke-width="4"/>
-    <text x="600" y="360" font-size="90" text-anchor="middle">🔒</text>
-    ${[["🔐","加密",300,240],["🗄️","備份",900,240],["👥","分級",300,470],["📝","留痕",900,470]].map(o=>`<circle cx="${o[2]}" cy="${o[3]}" r="52" fill="#13293d" stroke="#2b5b7d" stroke-width="2"/><text x="${o[2]}" y="${o[3]-2}" font-size="34" text-anchor="middle">${o[0]}</text><text x="${o[2]}" y="${o[3]+34}" font-size="18" fill="#bcd3e5" text-anchor="middle">${o[1]}</text>`).join("")}`,
+  // #7 shield + robot guardian
+  s7:(id)=>bg("#eef6fd")+defs(id)+`
+    <path d="M600 140 l140 52 v140 c0 122 -84 196 -140 234 c-56 -38 -140 -112 -140 -234 v-140 z" fill="#fff" stroke="url(#${id})" stroke-width="5"/>
+    <text x="600" y="360" font-size="86" text-anchor="middle">🔒</text>
+    ${[["🔐","加密",300,240],["🗄️","備份",900,240],["👥","分級",300,470],["📝","留痕",900,470]].map(o=>`<circle cx="${o[2]}" cy="${o[3]}" r="52" fill="#fff" stroke="${TINT2}" stroke-width="3"/><text x="${o[2]}" y="${o[3]-2}" font-size="32" text-anchor="middle">${o[0]}</text><text x="${o[2]}" y="${o[3]+34}" font-size="17" fill="${NAVY}" text-anchor="middle" font-weight="700">${o[1]}</text>`).join("")}
+    ${robot(600,620,1.0,id)}`,
 
-  // #8 handover before/after
-  s8:`<rect width="1200" height="700" fill="#f4f6f5"/>
-    <rect x="60" y="120" width="480" height="460" rx="16" fill="#fbeceb"/>
-    <text x="300" y="185" font-size="24" fill="#b91c1c" text-anchor="middle" font-weight="800">交接前 ❓</text>
-    ${[0,1,2,3,4].map(i=>`<rect x="${150+ (i%3)*70}" y="${230+Math.floor(i/3)*90}" width="60" height="78" rx="4" fill="#fff" stroke="#e6b5b2" stroke-width="2" transform="rotate(${i*7-14} ${180+(i%3)*70} ${270+Math.floor(i/3)*90})"/>`).join("")}
-    <text x="300" y="540" font-size="46" text-anchor="middle">🗂️</text>
-    <path d="M560 350 l40 0 m-14 -12 l14 12 -14 12" stroke="${GD}" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <rect x="640" y="120" width="500" height="460" rx="16" fill="#eafaf1"/>
-    <text x="890" y="185" font-size="24" fill="${GD}" text-anchor="middle" font-weight="800">交接後 ✓</text>
-    <path d="M720 250 v250" stroke="${G}" stroke-width="4"/>
-    ${[0,1,2,3].map(i=>`<circle cx="720" cy="${270+i*75}" r="12" fill="${G}"/><rect x="750" y="${256+i*75}" width="330" height="30" rx="8" fill="#fff" stroke="#c7e6d5" stroke-width="2"/>`).join("")}`,
+  // #8 handover before/after + robot on tidy side
+  s8:(id)=>bg("#f3f8fc")+defs(id)+`
+    <rect x="60" y="120" width="470" height="460" rx="16" fill="#eef1f5"/>
+    <text x="295" y="185" font-size="23" fill="#7a8aa0" text-anchor="middle" font-weight="800">交接前 ❓</text>
+    ${[0,1,2,3,4].map(i=>`<rect x="${150+ (i%3)*70}" y="${230+Math.floor(i/3)*90}" width="58" height="76" rx="4" fill="#fff" stroke="#c7d0dd" stroke-width="2" transform="rotate(${i*7-14} ${179+(i%3)*70} ${268+Math.floor(i/3)*90})"/>`).join("")}
+    <text x="295" y="545" font-size="44" text-anchor="middle">🗂️</text>
+    <path d="M552 350 h44 m-14 -12 l14 12 -14 12" stroke="${SKY}" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <rect x="640" y="120" width="500" height="460" rx="16" fill="#e9f6ef"/>
+    <text x="890" y="185" font-size="23" fill="#2f9e78" text-anchor="middle" font-weight="800">交接後 ✓</text>
+    <path d="M710 250 v250" stroke="url(#${id})" stroke-width="4"/>
+    ${[0,1,2,3].map(i=>`<circle cx="710" cy="${268+i*72}" r="11" fill="${MINT}"/><rect x="738" y="${254+i*72}" width="300" height="30" rx="8" fill="#fff" stroke="#c9e6d7" stroke-width="2"/>`).join("")}
+    ${robot(1090,500,1.0,id)}`,
 
-  // #9 voting
-  s9:`<rect width="1200" height="700" fill="#f3faf5"/>
-    ${phone(430,90,340,520,"#ffffff")}
-    <rect x="475" y="150" width="250" height="30" rx="8" fill="${NV}"/>
-    <rect x="475" y="205" width="250" height="60" rx="10" fill="${G}"/><text x="600" y="243" font-size="20" fill="#fff" text-anchor="middle" font-weight="700">贊成 👍</text>
-    <rect x="475" y="278" width="250" height="60" rx="10" fill="#fff" stroke="#cdd6d1" stroke-width="2"/><text x="600" y="316" font-size="20" fill="${MUTE}" text-anchor="middle">反對</text>
-    <rect x="475" y="370" width="250" height="26" rx="13" fill="#e4eae6"/><rect x="475" y="370" width="180" height="26" rx="13" fill="${G}"/>
-    <text x="600" y="430" font-size="20" fill="${GD}" text-anchor="middle" font-weight="800">72% 贊成・即時計票</text>
-    ${[0,1,2,3,4].map(i=>`<circle cx="${520+i*40}" cy="500" r="18" fill="#dff0e6" stroke="${G}" stroke-width="2"/><text x="${520+i*40}" y="507" font-size="16" text-anchor="middle">🧑</text>`).join("")}`,
+  // #9 voting phone + robot with ballot
+  s9:(id)=>bg("#eef6fd")+defs(id)+`
+    <rect x="360" y="90" width="330" height="520" rx="40" fill="#fff" stroke="url(#${id})" stroke-width="5"/>
+    <rect x="400" y="150" width="250" height="30" rx="8" fill="url(#${id})"/>
+    <rect x="400" y="205" width="250" height="58" rx="12" fill="url(#${id})"/><text x="525" y="242" font-size="20" fill="#fff" text-anchor="middle" font-weight="700">贊成 👍</text>
+    <rect x="400" y="275" width="250" height="58" rx="12" fill="#fff" stroke="#cdd9e6" stroke-width="2"/><text x="525" y="312" font-size="20" fill="${MUTE}" text-anchor="middle">反對</text>
+    <rect x="400" y="365" width="250" height="24" rx="12" fill="#e2ebf3"/><rect x="400" y="365" width="180" height="24" rx="12" fill="url(#${id})"/>
+    <text x="525" y="425" font-size="20" fill="${SKY}" text-anchor="middle" font-weight="800">72% 贊成・即時計票</text>
+    ${[0,1,2,3].map(i=>`<circle cx="${445+i*40}" cy="500" r="17" fill="#eaf4fb" stroke="${MINT}" stroke-width="2"/><text x="${445+i*40}" y="507" font-size="15" text-anchor="middle">🧑</text>`).join("")}
+    ${robot(940,320,1.6,id)}<text x="940" y="235" font-size="34" text-anchor="middle">🗳️</text>`,
 
-  // #10 before/after case
-  s10:`<rect width="1200" height="700" fill="#f4f6f5"/>
-    <rect x="60" y="90" width="500" height="520" rx="16" fill="#fbeceb"/>
-    <text x="310" y="160" font-size="26" fill="#b91c1c" text-anchor="middle" font-weight="800">導入前</text>
-    ${["❌ 警衛電話接不完","❌ 報修常被漏掉","❌ 繳費對帳一團亂"].map((t,i)=>`<rect x="110" y="${210+i*90}" width="400" height="60" rx="10" fill="#fff" stroke="#e6b5b2" stroke-width="2"/><text x="140" y="${248+i*90}" font-size="22" fill="#7f1d1d">${t}</text>`).join("")}
-    <circle cx="600" cy="350" r="34" fill="${GD}"/><path d="M586 350 h28 m-12 -11 l12 11 -12 11" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <rect x="640" y="90" width="500" height="520" rx="16" fill="#eafaf1"/>
-    <text x="890" y="160" font-size="26" fill="${GD}" text-anchor="middle" font-weight="800">導入後</text>
-    ${["✅ 訪客自助 QR 通行","✅ 報修進度全透明","✅ 繳費查詢自己來"].map((t,i)=>`<rect x="690" y="${210+i*90}" width="400" height="60" rx="10" fill="#fff" stroke="#c7e6d5" stroke-width="2"/><text x="720" y="${248+i*90}" font-size="22" fill="#065f36">${t}</text>`).join("")}`,
+  // #10 before/after case + robot pointing right
+  s10:(id)=>bg("#f3f8fc")+defs(id)+`
+    <rect x="60" y="90" width="480" height="520" rx="16" fill="#eef1f5"/>
+    <text x="300" y="158" font-size="25" fill="#7a8aa0" text-anchor="middle" font-weight="800">導入前</text>
+    ${["警衛電話接不完","報修常被漏掉","繳費對帳一團亂"].map((t,i)=>`<rect x="105" y="${205+i*95}" width="390" height="62" rx="10" fill="#fff" stroke="#c7d0dd" stroke-width="2"/><text x="130" y="${244+i*95}" font-size="21" fill="#6b7a90">✕ ${t}</text>`).join("")}
+    ${robot(600,350,1.15,id)}
+    <path d="M636 350 h30 m-12 -11 l12 11 -12 11" stroke="${SKY}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <rect x="660" y="90" width="480" height="520" rx="16" fill="#e9f6ef"/>
+    <text x="900" y="158" font-size="25" fill="#2f9e78" text-anchor="middle" font-weight="800">導入後</text>
+    ${["訪客自助 QR 通行","報修進度全透明","繳費查詢自己來"].map((t,i)=>`<rect x="705" y="${205+i*95}" width="390" height="62" rx="10" fill="#fff" stroke="#c9e6d7" stroke-width="2"/><text x="730" y="${244+i*95}" font-size="21" fill="#2f9e78">✓ ${t}</text>`).join("")}`,
 
-  // #11 pricing staircase, L1 free
-  s11:`<rect width="1200" height="700" fill="#f3faf5"/>
-    ${[["L1",120,470,AM,"免費"],["L2",380,390,G,""],["L3",640,310,G,""],["L4",900,230,GD,""]].map(s=>`<rect x="${s[1]}" y="${s[2]}" width="230" height="${590-s[2]}" rx="10" fill="${s[3]}" opacity="${s[0]==='L1'?1:.9}"/><text x="${s[1]+115}" y="${s[2]+50}" font-size="34" fill="#fff" text-anchor="middle" font-weight="800">${s[0]}</text>${s[4]?`<rect x="${s[1]+55}" y="${s[2]+70}" width="120" height="40" rx="20" fill="#fff"/><text x="${s[1]+115}" y="${s[2]+97}" font-size="22" fill="#b45309" text-anchor="middle" font-weight="800">${s[4]}</text>`:''}`).join("")}
-    <text x="235" y="335" font-size="46" text-anchor="middle">🧑</text>`,
+  // #11 pricing staircase L1 free + robot inviting
+  s11:(id)=>bg("#eef6fd")+defs(id)+`
+    ${[["L1",120,470,"#8fd9c0","免費"],["L2",370,390,MINT,""],["L3",620,310,"#4fb6cf",""],["L4",870,230,SKY,""]].map(s=>`<rect x="${s[1]}" y="${s[2]}" width="230" height="${600-s[2]}" rx="12" fill="${s[3]}"/><text x="${s[1]+115}" y="${s[2]+50}" font-size="34" fill="#fff" text-anchor="middle" font-weight="800">${s[0]}</text>${s[4]?`<rect x="${s[1]+55}" y="${s[2]+70}" width="120" height="40" rx="20" fill="#fff"/><text x="${s[1]+115}" y="${s[2]+97}" font-size="22" fill="#b06d1a" text-anchor="middle" font-weight="800">${s[4]}</text>`:''}`).join("")}
+    ${robot(235,360,1.15,id)}`,
 
-  // #12 3-step launch
-  s12:`<rect width="1200" height="700" fill="#f4faf6"/>
-    ${[["💬","聯絡諮詢",220],["⚙️","配置方案",600],["🚀","上線啟用",980]].map((s,i)=>`<circle cx="${s[2]}" cy="290" r="80" fill="${W}" stroke="${G}" stroke-width="4"/><text x="${s[2]}" y="310" font-size="56" text-anchor="middle">${s[0]}</text><circle cx="${s[2]-70}" cy="220" r="26" fill="${GD}"/><text x="${s[2]-70}" y="230" font-size="26" fill="#fff" text-anchor="middle" font-weight="800">${i+1}</text><text x="${s[2]}" y="420" font-size="24" fill="${INK}" text-anchor="middle" font-weight="700">${s[1]}</text>`).join("")}
-    ${[0,1].map(i=>`<path d="M${330+i*380} 290 h140" stroke="${GD}" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round"/><path d="M${462+i*380} 278 l18 12 -18 12z" fill="${GD}"/>`).join("")}
-    <rect x="470" y="500" width="260" height="56" rx="28" fill="${AM}"/><text x="600" y="536" font-size="24" fill="#fff" text-anchor="middle" font-weight="800">本月免費評估</text>`,
+  // #12 3-step launch + robot cheering
+  s12:(id)=>bg("#f0f7ec")+defs(id)+`
+    ${[["💬","聯絡諮詢",220],["⚙️","配置方案",600],["🚀","上線啟用",980]].map((s,i)=>`<circle cx="${s[2]}" cy="285" r="78" fill="${W}" stroke="url(#${id})" stroke-width="5"/><text x="${s[2]}" y="305" font-size="54" text-anchor="middle">${s[0]}</text><circle cx="${s[2]-68}" cy="218" r="25" fill="url(#${id})"/><text x="${s[2]-68}" y="227" font-size="24" fill="#fff" text-anchor="middle" font-weight="800">${i+1}</text><text x="${s[2]}" y="415" font-size="23" fill="${NAVY}" text-anchor="middle" font-weight="700">${s[1]}</text>`).join("")}
+    ${[0,1].map(i=>`<path d="M${318+i*380} 285 h146" stroke="url(#${id})" stroke-width="5" stroke-dasharray="2 13" stroke-linecap="round"/>`).join("")}
+    ${robot(1090,300,1.0,id)}
+    <rect x="460" y="500" width="280" height="56" rx="28" fill="${AMBER}"/><text x="600" y="536" font-size="23" fill="#fff" text-anchor="middle" font-weight="800">本月免費評估</text>`,
 };
 
 const posts=[
  {n:1,wk:1,date:"07/07（一）",type:"edu",kicker:"你的社區，還在用「LINE 群組接龍」處理大小事嗎？",
-  body:["公告被洗掉、繳費對不清、訪客卡在大門口、報修石沉大海…管委會和物業最常見的崩潰，其實都來自同一件事：<b>資訊沒有系統。</b>","我們把這些全部整合進你每天都在用的 <b>LINE</b>——住戶報修繳費預約、員工打卡排班巡檢、管理者用 Web 後台一目了然。","不用裝 App、長輩也會用、最快幾天就能上線。"],
+  body:["公告被洗掉、繳費對不清、訪客卡在大門口、報修石沉大海…管委會和物業最常見的崩潰，其實都來自同一件事：<b>資訊沒有系統。</b>","Livmii 把這些全部整合起來——住戶報修繳費預約、員工打卡排班巡檢、管理者用 Web 後台一目了然。","不用裝 App、長輩也會用、最快幾天就能上線。"],
   cta:"留言「社區」私訊你",ctaAmber:false,
-  img:"一圖流：手機 LINE 前台 ↔ 筆電後台，中間箭頭串接，主標「住戶用 LINE，管理用後台」"},
+  img:"Livmii 機器人比手勢＋手機 App 圖文選單＋社區大樓綠地插畫，主標「智慧生活・從社區開始」"},
  {n:2,wk:1,date:"07/09（三）",type:"edu",kicker:"主委們的共同噩夢：假日訪客大塞車 🚗",
-  body:["訪客一多，警衛室電話打不停、車位不知道還有沒有、登記簿一團亂…","用 LINE 訪客預約後：住戶線上預約 → 系統<b>自動配車位</b> → 產生 <b>QR 通行證</b> → 警衛掃碼放行。","全程留痕、可追責。警衛輕鬆、住戶有面子。"],
+  body:["訪客一多，警衛室電話打不停、車位不知道還有沒有、登記簿一團亂…","用 Livmii 訪客預約後：住戶線上預約 → 系統<b>自動配車位</b> → 產生 <b>QR 通行證</b> → 警衛掃碼放行。","全程留痕、可追責。警衛輕鬆、住戶有面子。"],
   cta:"你的社區還是紙本人工嗎？",ctaAmber:false,
-  img:"四步驟流程圖：預約→配車位→QR證→掃碼放行，底部「全程留痕・可追責」"},
+  img:"四步驟流程圖，機器人站最後一格「幫你放行」，綠藍漸層線串連，底部膠囊標「全程留痕」"},
  {n:3,wk:1,date:"07/11（五）",type:"fea",kicker:"報修單「已讀不回」，是住戶對管委會最大的不滿來源",
-  body:["傳統報修：打電話→沒人接→登記本→忘了處理→住戶抱怨。","改用 LINE 工單：📷住戶拍照上報 → 🔧派工處理 → 📊進度即時追蹤 → ✅完工留檔。","住戶看得到進度就不會一直催，管委會也不會被冤枉。<b>透明，就是最好的物業服務。</b>"],
+  body:["傳統報修：打電話→沒人接→登記本→忘了處理→住戶抱怨。","改用 Livmii 工單：📷住戶拍照上報 → 🔧派工處理 → 📊進度即時追蹤 → ✅完工留檔。","住戶看得到進度就不會一直催，管委會也不會被冤枉。<b>透明，就是最好的物業服務。</b>"],
   cta:"導流至介紹網站",ctaAmber:false,
-  img:"報修進度追蹤介面（已上報→處理中→完工三段進度條）｜建議用真實截圖"},
+  img:"手機報修進度條，機器人拿小扳手在旁邊｜正式發文建議改真實截圖＋機器人貼角落"},
  {n:4,wk:2,date:"07/14（一）",type:"edu",kicker:"一個物業老闆，要同時盯幾個案場？",
-  body:["排班靠 LINE 群、打卡靠拍照、巡檢靠回報…案場一多就管不動，人力成本還降不下來。","<b>L4 專業方案</b>：📍GPS 定位打卡杜絕代打卡、📊出勤績效報表自動產出、🤖AI 工單與影像巡檢、🗂主管案場總覽。","<b>省的不只是時間，是實打實的人力成本。</b>"],
+  body:["排班靠 LINE 群、打卡靠拍照、巡檢靠回報…案場一多就管不動，人力成本還降不下來。","Livmii <b>L4 專業方案</b>：📍GPS 定位打卡杜絕代打卡、📊出勤績效報表自動產出、🤖AI 工單與影像巡檢、🗂主管案場總覽。","<b>省的不只是時間，是實打實的人力成本。</b>"],
   cta:"私訊預約 Demo 🖥",ctaAmber:false,
-  img:"多案場後台 Dashboard：地圖定位標記＋出勤圓餅圖＋工單長條圖"},
+  img:"多案場後台 Dashboard（地圖漸層定位＋出勤圓餅＋工單長條），機器人以小主管姿態指向螢幕，維持明亮底"},
  {n:5,wk:2,date:"07/16（三）",type:"edu",kicker:"房東／代管最煩的：租金催繳 + 報修跑斷腿 🏃",
-  body:["管一間還好，管十間就是災難。租客繳費查詢、線上報修拍照、進度追蹤——全部進 LINE。","你不用再一間一間跑、一個一個提醒。<b>管得越多間，越需要系統。</b>"],
+  body:["管一間還好，管十間就是災難。租客繳費查詢、線上報修拍照、進度追蹤——全部進 Livmii。","你不用再一間一間跑、一個一個提醒。<b>管得越多間，越需要系統。</b>"],
   cta:"手上幾間？留言數字",ctaAmber:false,
-  img:"房東在咖啡廳滑手機，浮出「租金已收／報修處理中」氣泡，背景公寓剪影"},
+  img:"房東滑手機浮出「租金已收／報修處理中」淺藍氣泡，機器人探頭當小助理，背景公寓插畫"},
  {n:6,wk:2,date:"07/18（五）",type:"fea",kicker:"最怕的一句話：「這個 App 我阿嬤不會用」",
-  body:["很多社區系統敗在：住戶懶得裝 App、長輩不會操作、裝了也不打開。","我們直接建在 <b>LINE</b> 上——👵大按鈕圖文選單、📲不用下載註冊、💬用他們每天在滑的 LINE。","<b>再好的功能，用不起來都是零。好用，才是真的有用。</b>"],
+  body:["很多社區系統敗在：住戶懶得裝 App、長輩不會操作、裝了也不打開。","Livmii 直接建在 LINE 上——👵大按鈕圖文選單、📲不用下載註冊、💬用他們每天在滑的 LINE。","<b>再好的功能，用不起來都是零。好用，才是真的有用。</b>"],
   cta:"導流至介紹網站",ctaAmber:false,
-  img:"阿嬤開心用手機，LINE 大按鈕圖文選單，角落「免下載」標章"},
+  img:"阿嬤開心用手機（超大圓角按鈕選單），機器人在旁陪伴，角落淺藍「免下載」圓標"},
  {n:7,wk:3,date:"07/21（一）",type:"edu",kicker:"「導入系統，我們的資料安全嗎？」",
-  body:["這是每個主委開會一定會問的問題。我們的答案：🔒HTTPS 加密、🗄定期備份、👥權限分級、📝操作留痕。","對住戶透明，對管委會也是一種<b>保護</b>——出事時，你有完整紀錄。"],
+  body:["這是每個主委開會一定會問的問題。Livmii 的答案：🔒HTTPS 加密、🗄定期備份、👥權限分級、📝操作留痕。","對住戶透明，對管委會也是一種<b>保護</b>——出事時，你有完整紀錄。"],
   cta:"建立信任（軟性）",ctaAmber:false,
-  img:"盾牌＋鎖為中心，環繞加密／備份／分級／留痕四個 icon，深藍綠穩重"},
+  img:"綠藍漸層盾牌＋鎖，機器人在盾牌前守護，環繞加密／備份／分級／留痕四個淺藍圓 icon（明亮底非深色）"},
  {n:8,wk:3,date:"07/23（三）",type:"edu",kicker:"管委會換屆、物業換人，東西全部斷光光？",
   body:["主委任期到、物業人員離職，一交接就「查無此事」——誰繳了費、哪張工單沒結、哪個決議通過…全靠記憶和紙本，超容易出包。","系統化之後，<b>所有紀錄自動留存</b>，換誰來都接得上。交接不再是黑洞。"],
   cta:"留言互動",ctaAmber:false,
-  img:"左凌亂紙本＋問號（交接前）vs 右清楚數位時間軸（交接後）對比"},
+  img:"左凌亂紙本＋問號（灰）vs 右綠藍漸層數位時間軸，機器人站右側整理好那邊比讚"},
  {n:9,wk:3,date:"07/25（五）",type:"fea",kicker:"區權會提案，總是「同一批人在決定」？",
-  body:["傳統投票：貼公告→沒人看→出席不足→流會→重來。","LINE 線上議案投票：🗳一鍵投票即時計票、📢公告直接推播、💬意見箱讓住戶敢講話。","讓「沉默的多數」也能參與，社區才真的是大家的。"],
+  body:["傳統投票：貼公告→沒人看→出席不足→流會→重來。","Livmii 線上議案投票：🗳一鍵投票即時計票、📢公告直接推播、💬意見箱讓住戶敢講話。","讓「沉默的多數」也能參與，社區才真的是大家的。"],
   cta:"導流至介紹網站",ctaAmber:false,
-  img:"手機投票介面：贊成／反對按鈕＋即時計票長條圖＋住戶頭像"},
+  img:"手機投票介面（漸層計票長條＋住戶頭像），機器人舉小票匭在旁"},
  {n:10,wk:4,date:"07/28（一）",type:"fea",kicker:"一個 200 戶社區，導入前後差在哪？",
-  body:["導入前：❌警衛電話接不完 ❌報修常被漏掉 ❌繳費對帳一團亂。","導入後：✅訪客自助 QR 通行 ✅報修進度全透明 ✅繳費查詢自己來。","主委說：「<b>最有感的是投訴變少了，因為住戶自己看得到。</b>」"],
+  body:["導入前：✕警衛電話接不完 ✕報修常被漏掉 ✕繳費對帳一團亂。","導入後：✓訪客自助 QR 通行 ✓報修進度全透明 ✓繳費查詢自己來。","主委說：「<b>最有感的是投訴變少了，因為住戶自己看得到。</b>」"],
   cta:"承上啟下，鋪墊促購",ctaAmber:false,
-  img:"左紅「導入前 ❌」清單 vs 右綠「導入後 ✅」清單，中間箭頭"},
+  img:"左灰「導入前 ✕」vs 右綠「導入後 ✓」清單，機器人站中間指向右側（品牌柔和色，不用刺眼紅綠）"},
  {n:11,wk:4,date:"07/30（三）",type:"cta",kicker:"L1 入門方案，免費先用 👀",
-  body:["不確定適不適合你的社區？<b>先從免費的 L1 開始：</b>✅社區公告 ✅線上繳費 ✅訪客 QR 通行。","用得順，再升級 L2、L3、L4。<b>零風險、零綁約。</b>"],
+  body:["不確定適不適合你的社區？<b>先從免費的 L1 開始：</b>✓社區公告 ✓線上繳費 ✓訪客 QR 通行。","用得順，再升級 L2、L3、L4。<b>零風險、零綁約。</b>"],
   cta:"留言「免費試用」私訊評估",ctaAmber:true,
-  img:"四階方案樓梯 L1→L4，L1 那階用橘色標「免費」，小人準備往上走"},
+  img:"四階方案樓梯 L1→L4 綠藍漸層由淺到深，L1 標「免費」，機器人站 L1 邀請往上升級"},
  {n:12,wk:4,date:"08/01（五）",type:"cta",kicker:"從決定到上線，最快只要幾天 ⚡",
   body:["很多人以為導入系統要搞很久——其實三步驟就好：1️⃣聯絡諮詢 2️⃣配置方案 3️⃣上線啟用。","不用大工程、不用改硬體、不綁長約。","本月諮詢享 <b>免費社區導入評估</b>。"],
   cta:"私訊「我要評估」🚀",ctaAmber:true,
-  img:"三步驟流程圖：💬諮詢→⚙️配置→🚀上線，底部橘色 CTA「本月免費評估」"},
+  img:"三步驟圓形流程 💬→⚙️→🚀，機器人在上線那格歡呼，底部橘色 CTA「本月免費評估」"},
 ];
 
 const typeMap={edu:["痛點教育","t-edu"],fea:["功能／案例","t-fea"],cta:["轉換促購","t-cta"]};
 const weekMeta={1:["第一週","建立定位・打共鳴"],2:["第二週","分眾打三大客群"],3:["第三週","建立信任・強化專業"],4:["第四週","收斂轉換・促成詢價"]};
 const clock=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`;
+/* mini Livmii mark for post avatar */
+const avatarMark=`<svg viewBox="0 0 100 100" fill="none"><defs><linearGradient id="av" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#5fd1a8"/><stop offset="1" stop-color="#3b9be8"/></linearGradient></defs><path d="M24 54 L50 32 L76 54 V78 a4 4 0 0 1 -4 4 H28 a4 4 0 0 1 -4 -4 Z" stroke="url(#av)" stroke-width="6" stroke-linejoin="round"/><rect x="38" y="52" width="24" height="18" rx="6" stroke="url(#av)" stroke-width="6"/><circle cx="46" cy="61" r="2.4" fill="#3b9be8"/><circle cx="55" cy="61" r="2.4" fill="#3b9be8"/></svg>`;
 
 const app=document.getElementById("app");
 let html="",curWk=0;
@@ -363,25 +432,27 @@ for(const p of posts){
     html+=`</div><div class="week"><h2>🗓 ${wt}</h2><span class="wk-sub">${ws}</span><span class="rule"></span></div><div class="grid">`;
   }
   const[tl,tc]=typeMap[p.type];
+  const sceneSvg=scenes["s"+p.n]("grad"+p.n);
   html+=`<article class="post">
     <div class="p-head">
-      <div class="avatar">社</div>
-      <div class="p-brand"><span class="name">智慧社區 LINE 方案</span><span class="when">${clock}${p.date} · 已排程</span></div>
+      <div class="avatar">${avatarMark}</div>
+      <div class="p-brand"><span class="name">Livmii 社區智能管理助手</span><span class="when">${clock}${p.date} · 已排程</span></div>
       <span class="p-num">#${p.n}</span>
     </div>
-    <div class="mock"><span class="type-tag ${tc}">${tl}</span><svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">${scenes["s"+p.n]}</svg></div>
+    <div class="mock"><span class="type-tag ${tc}">${tl}</span><svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">${sceneSvg}</svg></div>
     <div class="p-body">
       <span class="kicker">${p.kicker}</span>
       ${p.body.map(b=>`<p>${b}</p>`).join("")}
       <span class="p-cta ${p.ctaAmber?'amber':''}">👉 ${p.cta}</span>
     </div>
     <div class="p-foot">
-      <span class="lab">配圖方向</span>
+      <span class="lab">配圖方向（Livmii 品牌風）</span>
       <div class="img-hint">${p.img}</div>
     </div>
   </article>`;
 }
 html+="</div>";
 app.innerHTML=html.replace(/^<\/div>/,"");
-</script></body>
+</script>
+</body>
 </html>
