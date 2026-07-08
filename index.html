@@ -148,10 +148,25 @@
   }
   .p-cta.amber{color:#b06d1a;background:var(--amber-soft);border-color:rgba(242,163,60,.42)}
 
+  /* hashtags */
+  .p-tags{margin:12px 0 2px;padding-top:12px;border-top:1px dashed var(--line)}
+  .p-tags .th{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .p-tags .th .lab{font-weight:700;font-size:12.5px;color:var(--sky);letter-spacing:.02em}
+  .p-tags .copytags{margin-left:auto;cursor:pointer;border:1px solid rgba(59,155,232,.4);background:#fff;color:var(--sky);
+    font-weight:700;font-size:12px;border-radius:8px;padding:5px 10px;transition:.15s;font-family:inherit}
+  .p-tags .copytags:hover{background:var(--sky);color:#fff}
+  .p-tags .copytags.done{background:var(--mint);border-color:var(--mint);color:#fff}
+  .p-tags .tagline{font-size:13px;color:#5f7da0;line-height:1.6;word-break:break-word}
+
   .p-foot{margin-top:auto;padding:13px 18px;border-top:1px dashed var(--line);background:var(--paper);
     font-size:12.8px;color:var(--ink-soft)}
   .p-foot .lab{font-weight:700;color:var(--ink);letter-spacing:.02em}
   .p-foot .img-hint{margin-top:4px}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--ink);color:#fff;padding:11px 20px;border-radius:12px;font-size:14px;font-weight:600;
+    box-shadow:0 10px 30px rgba(43,58,85,.3);transition:.25s;pointer-events:none;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
   footer{margin:56px 0 40px;padding-top:28px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:13.5px}
   footer b{color:var(--ink)}
@@ -190,6 +205,7 @@
       <span class="chip">🗓 每週一・三・五</span>
       <span class="chip">🎯 客群：管委會 × 物業公司 × 包租代管</span>
       <span class="chip">📊 教育 6 ・ 功能 4 ・ 轉換 2</span>
+      <span class="chip"># 每篇已附建議標籤</span>
     </div>
 
     <div class="spec">
@@ -212,6 +228,7 @@
 </header>
 
 <main class="wrap" id="app"></main>
+<div class="toast" id="toast">已複製 ✓</div>
 
 <footer class="wrap">
   <p class="fnote"><b>下一步建議：</b>本排程中 <b>#4 物業後台、#11 免費方案、#12 快速上線</b> 三篇最適合另外拿去投 FB／IG 名單型廣告收詢價。介面類的 #3、#4、#9 建議正式發文時改用真實產品截圖。</p>
@@ -380,51 +397,63 @@ const posts=[
  {n:1,wk:1,date:"週一",type:"edu",kicker:"你的社區，還在用「LINE 群組接龍」處理大小事嗎？",
   body:["公告被洗掉、繳費對不清、訪客卡在大門口、報修石沉大海…管委會和物業最常見的崩潰，其實都來自同一件事：<b>資訊沒有系統。</b>","Livmii 把這些全部整合起來——住戶報修繳費預約、員工打卡排班巡檢、管理者用 Web 後台一目了然。","不用裝 App、長輩也會用、最快幾天就能上線。"],
   cta:"留言「社區」私訊你",ctaAmber:false,
-  img:"Livmii 機器人比手勢＋手機 App 圖文選單＋社區大樓綠地插畫，主標「智慧生活・從社區開始」"},
+  img:"Livmii 機器人比手勢＋手機 App 圖文選單＋社區大樓綠地插畫，主標「智慧生活・從社區開始」",
+  tags:"#Livmii #社區智能管理 #智慧社區 #物業管理 #社區管理 #管委會 #社區App"},
  {n:2,wk:1,date:"週三",type:"edu",kicker:"主委們的共同噩夢：假日訪客大塞車 🚗",
   body:["訪客一多，警衛室電話打不停、車位不知道還有沒有、登記簿一團亂…","用 Livmii 訪客預約後：住戶線上預約 → 系統<b>自動配車位</b> → 產生 <b>QR 通行證</b> → 警衛掃碼放行。","全程留痕、可追責。警衛輕鬆、住戶有面子。"],
   cta:"你的社區還是紙本人工嗎？",ctaAmber:false,
-  img:"四步驟流程圖，機器人站最後一格「幫你放行」，綠藍漸層線串連，底部膠囊標「全程留痕」"},
+  img:"四步驟流程圖，機器人站最後一格「幫你放行」，綠藍漸層線串連，底部膠囊標「全程留痕」",
+  tags:"#Livmii #智慧社區 #物業管理 #訪客管理 #社區安全 #管委會 #社區生活"},
  {n:3,wk:1,date:"週五",type:"fea",kicker:"報修單「已讀不回」，是住戶對管委會最大的不滿來源",
   body:["傳統報修：打電話→沒人接→登記本→忘了處理→住戶抱怨。","改用 Livmii 工單：📷住戶拍照上報 → 🔧派工處理 → 📊進度即時追蹤 → ✅完工留檔。","住戶看得到進度就不會一直催，管委會也不會被冤枉。<b>透明，就是最好的物業服務。</b>"],
   cta:"導流至介紹網站",ctaAmber:false,
-  img:"手機報修進度條，機器人拿小扳手在旁邊｜正式發文建議改真實截圖＋機器人貼角落"},
+  img:"手機報修進度條，機器人拿小扳手在旁邊｜正式發文建議改真實截圖＋機器人貼角落",
+  tags:"#Livmii #智慧社區 #物業管理 #社區報修 #物業數位化 #管委會 #社區生活"},
  {n:4,wk:2,date:"週一",type:"edu",kicker:"一個物業老闆，要同時盯幾個案場？",
   body:["排班靠 LINE 群、打卡靠拍照、巡檢靠回報…案場一多就管不動，人力成本還降不下來。","Livmii <b>L4 專業方案</b>：📍GPS 定位打卡杜絕代打卡、📊出勤績效報表自動產出、🤖AI 工單與影像巡檢、🗂主管案場總覽。","<b>省的不只是時間，是實打實的人力成本。</b>"],
   cta:"私訊預約 Demo 🖥",ctaAmber:false,
-  img:"多案場後台 Dashboard（地圖漸層定位＋出勤圓餅＋工單長條），機器人以小主管姿態指向螢幕，維持明亮底"},
+  img:"多案場後台 Dashboard（地圖漸層定位＋出勤圓餅＋工單長條），機器人以小主管姿態指向螢幕，維持明亮底",
+  tags:"#Livmii #智慧物業 #物業公司 #物業管理 #PropTech #定位打卡 #數位轉型"},
  {n:5,wk:2,date:"週三",type:"edu",kicker:"房東／代管最煩的：租金催繳 + 報修跑斷腿 🏃",
   body:["管一間還好，管十間就是災難。租客繳費查詢、線上報修拍照、進度追蹤——全部進 Livmii。","你不用再一間一間跑、一個一個提醒。<b>管得越多間，越需要系統。</b>"],
   cta:"手上幾間？留言數字",ctaAmber:false,
-  img:"房東滑手機浮出「租金已收／報修處理中」淺藍氣泡，機器人探頭當小助理，背景公寓插畫"},
+  img:"房東滑手機浮出「租金已收／報修處理中」淺藍氣泡，機器人探頭當小助理，背景公寓插畫",
+  tags:"#Livmii #包租代管 #房東 #租務管理 #物業管理 #智慧物業 #PropTech"},
  {n:6,wk:2,date:"週五",type:"fea",kicker:"最怕的一句話：「這個 App 我阿嬤不會用」",
   body:["很多社區系統敗在：住戶懶得裝 App、長輩不會操作、裝了也不打開。","Livmii 直接建在 LINE 上——👵大按鈕圖文選單、📲不用下載註冊、💬用他們每天在滑的 LINE。","<b>再好的功能，用不起來都是零。好用，才是真的有用。</b>"],
   cta:"導流至介紹網站",ctaAmber:false,
-  img:"阿嬤開心用手機（超大圓角按鈕選單），機器人在旁陪伴，角落淺藍「免下載」圓標"},
+  img:"阿嬤開心用手機（超大圓角按鈕選單），機器人在旁陪伴，角落淺藍「免下載」圓標",
+  tags:"#Livmii #智慧社區 #社區App #物業管理 #社區生活 #長輩友善 #管委會"},
  {n:7,wk:3,date:"週一",type:"edu",kicker:"「導入系統，我們的資料安全嗎？」",
   body:["這是每個主委開會一定會問的問題。Livmii 的答案：🔒HTTPS 加密、🗄定期備份、👥權限分級、📝操作留痕。","對住戶透明，對管委會也是一種<b>保護</b>——出事時，你有完整紀錄。"],
   cta:"建立信任（軟性）",ctaAmber:false,
-  img:"綠藍漸層盾牌＋鎖，機器人在盾牌前守護，環繞加密／備份／分級／留痕四個淺藍圓 icon（明亮底非深色）"},
+  img:"綠藍漸層盾牌＋鎖，機器人在盾牌前守護，環繞加密／備份／分級／留痕四個淺藍圓 icon（明亮底非深色）",
+  tags:"#Livmii #智慧社區 #社區安全 #資料安全 #物業管理 #管委會 #物業科技"},
  {n:8,wk:3,date:"週三",type:"edu",kicker:"管委會換屆、物業換人，東西全部斷光光？",
   body:["主委任期到、物業人員離職，一交接就「查無此事」——誰繳了費、哪張工單沒結、哪個決議通過…全靠記憶和紙本，超容易出包。","系統化之後，<b>所有紀錄自動留存</b>，換誰來都接得上。交接不再是黑洞。"],
   cta:"留言互動",ctaAmber:false,
-  img:"左凌亂紙本＋問號（灰）vs 右綠藍漸層數位時間軸，機器人站右側整理好那邊比讚"},
+  img:"左凌亂紙本＋問號（灰）vs 右綠藍漸層數位時間軸，機器人站右側整理好那邊比讚",
+  tags:"#Livmii #智慧社區 #物業管理 #社區管理 #物業數位化 #管委會 #數位轉型"},
  {n:9,wk:3,date:"週五",type:"fea",kicker:"區權會提案，總是「同一批人在決定」？",
   body:["傳統投票：貼公告→沒人看→出席不足→流會→重來。","Livmii 線上議案投票：🗳一鍵投票即時計票、📢公告直接推播、💬意見箱讓住戶敢講話。","讓「沉默的多數」也能參與，社區才真的是大家的。"],
   cta:"導流至介紹網站",ctaAmber:false,
-  img:"手機投票介面（漸層計票長條＋住戶頭像），機器人舉小票匭在旁"},
+  img:"手機投票介面（漸層計票長條＋住戶頭像），機器人舉小票匭在旁",
+  tags:"#Livmii #智慧社區 #議案投票 #社區管理 #管委會 #社區生活 #物業管理"},
  {n:10,wk:4,date:"週一",type:"fea",kicker:"一個 200 戶社區，導入前後差在哪？",
   body:["導入前：✕警衛電話接不完 ✕報修常被漏掉 ✕繳費對帳一團亂。","導入後：✓訪客自助 QR 通行 ✓報修進度全透明 ✓繳費查詢自己來。","主委說：「<b>最有感的是投訴變少了，因為住戶自己看得到。</b>」"],
   cta:"承上啟下，鋪墊促購",ctaAmber:false,
-  img:"左灰「導入前 ✕」vs 右綠「導入後 ✓」清單，機器人站中間指向右側（品牌柔和色，不用刺眼紅綠）"},
+  img:"左灰「導入前 ✕」vs 右綠「導入後 ✓」清單，機器人站中間指向右側（品牌柔和色，不用刺眼紅綠）",
+  tags:"#Livmii #智慧社區 #物業管理 #社區管理 #導入案例 #管委會 #物業數位化"},
  {n:11,wk:4,date:"週三",type:"cta",kicker:"L1 入門方案，免費先用 👀",
   body:["不確定適不適合你的社區？<b>先從免費的 L1 開始：</b>✓社區公告 ✓線上繳費 ✓訪客 QR 通行。","用得順，再升級 L2、L3、L4。<b>零風險、零綁約。</b>"],
   cta:"留言「免費試用」私訊評估",ctaAmber:true,
-  img:"四階方案樓梯 L1→L4 綠藍漸層由淺到深，L1 標「免費」，機器人站 L1 邀請往上升級"},
+  img:"四階方案樓梯 L1→L4 綠藍漸層由淺到深，L1 標「免費」，機器人站 L1 邀請往上升級",
+  tags:"#Livmii #智慧社區 #免費試用 #社區App #物業管理 #管委會 #社區管理"},
  {n:12,wk:4,date:"週五",type:"cta",kicker:"從決定到上線，最快只要幾天 ⚡",
   body:["很多人以為導入系統要搞很久——其實三步驟就好：1️⃣聯絡諮詢 2️⃣配置方案 3️⃣上線啟用。","不用大工程、不用改硬體、不綁長約。","本月諮詢享 <b>免費社區導入評估</b>。"],
   cta:"私訊「我要評估」🚀",ctaAmber:true,
-  img:"三步驟圓形流程 💬→⚙️→🚀，機器人在上線那格歡呼，底部橘色 CTA「本月免費評估」"},
+  img:"三步驟圓形流程 💬→⚙️→🚀，機器人在上線那格歡呼，底部橘色 CTA「本月免費評估」",
+  tags:"#Livmii #智慧社區 #物業管理 #數位轉型 #免費評估 #管委會 #物業公司"},
 ];
 
 const typeMap={edu:["痛點教育","t-edu"],fea:["功能／案例","t-fea"],cta:["轉換促購","t-cta"]};
@@ -452,6 +481,11 @@ for(const p of posts){
       <span class="kicker">${p.kicker}</span>
       ${p.body.map(b=>`<p>${b}</p>`).join("")}
       <span class="p-cta ${p.ctaAmber?'amber':''}">👉 ${p.cta}</span>
+      <div class="p-tags">
+        <div class="th"><span class="lab"># 建議標籤</span>
+          <button class="copytags" data-post="${p.n}">📋 複製文案＋標籤</button></div>
+        <div class="tagline">${p.tags}</div>
+      </div>
     </div>
     <div class="p-foot">
       <span class="lab">配圖方向（Livmii 品牌風）</span>
@@ -461,6 +495,24 @@ for(const p of posts){
 }
 html+="</div>";
 app.innerHTML=html.replace(/^<\/div>/,"");
+
+/* build plain-text caption (文案＋標籤) per post for copy */
+const strip=s=>s.replace(/<[^>]+>/g,"");
+const captionOf=p=>[strip(p.kicker),"",...p.body.map(strip),"","👉 "+p.cta,"",p.tags].join("\n");
+
+const toast=document.getElementById("toast");let tid;
+document.addEventListener("click",e=>{
+  const btn=e.target.closest(".copytags");if(!btn)return;
+  const p=posts.find(x=>x.n==btn.dataset.post);if(!p)return;
+  const txt=captionOf(p);
+  const done=()=>{const old=btn.textContent;btn.textContent="已複製 ✓";btn.classList.add("done");
+    toast.classList.add("show");clearTimeout(tid);
+    tid=setTimeout(()=>{btn.textContent=old;btn.classList.remove("done");toast.classList.remove("show");},1600);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fb(txt,done));}
+  else fb(txt,done);
+});
+function fb(txt,done){const t=document.createElement("textarea");t.value=txt;t.style.position="fixed";t.style.opacity="0";
+  document.body.appendChild(t);t.select();try{document.execCommand("copy");done();}catch(e){}document.body.removeChild(t);}
 </script>
 </body>
 </html>
