@@ -40,23 +40,29 @@
   h1.title{margin:0;font-size:clamp(25px,4.4vw,36px);line-height:1.12;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
   .lede{margin:0;max-width:62ch;font-size:16px;color:var(--ink-soft)}
 
+  /* key callout — the robot reference tip */
+  .keytip{display:flex;gap:13px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--mint);
+    border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);margin:24px 0}
+  .keytip .ic{font-size:26px;line-height:1;flex:none}
+  .keytip h3{margin:0 0 5px;font-size:15.5px}
+  .keytip p{margin:0 0 6px;font-size:14.2px;color:var(--ink-soft)}
+  .keytip b{color:var(--ink)}
+
   /* how-to steps */
-  .howto{display:flex;flex-direction:column;gap:14px;margin:26px 0}
-  .step{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .howto{display:flex;flex-direction:column;gap:12px;margin:22px 0}
+  .step{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 18px;box-shadow:var(--shadow)}
   .step .k{width:30px;height:30px;flex:none;border-radius:9px;background:var(--grad);color:#fff;font-weight:800;display:grid;place-items:center;font-size:15px}
-  .step .t{font-size:14.6px;color:var(--ink-soft)}
+  .step .t{font-size:14.4px;color:var(--ink-soft)}
   .step .t b{color:var(--ink)}
 
   section.block{margin:30px 0}
   .block h2{font-size:19px;font-weight:800;margin:0 0 4px;display:flex;align-items:center;gap:9px}
   .block .h-note{font-size:13.5px;color:var(--ink-soft);margin:0 0 14px}
 
-  /* code card */
   .snip{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
   .snip .bar{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--tint)}
   .snip .lbl{font-weight:800;font-size:14px}
-  .snip .fmt{font-size:11.5px;font-weight:700;color:#fff;background:var(--sky);border-radius:6px;padding:3px 8px;letter-spacing:.02em}
-  .snip .fmt.sq{background:var(--mint)}
+  .snip .fmt{font-size:11.5px;font-weight:700;color:#fff;background:var(--mint);border-radius:6px;padding:3px 8px;letter-spacing:.02em}
   .snip .fmt.sys{background:var(--ink)}
   .copy{margin-left:auto;display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:1px solid rgba(59,155,232,.4);
     background:#fff;color:var(--sky);font-weight:700;font-size:13px;border-radius:9px;padding:7px 12px;transition:.15s;font-family:inherit}
@@ -64,9 +70,6 @@
   .copy.done{background:var(--mint);border-color:var(--mint);color:#fff}
   pre{margin:0;padding:15px 16px;background:var(--code-bg);white-space:pre-wrap;word-break:break-word;
     font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,"PingFang TC","Noto Sans TC",monospace;font-size:13.6px;line-height:1.66;color:#33425c}
-  .overlay{display:flex;gap:8px;align-items:flex-start;padding:11px 14px;border-top:1px dashed var(--line);background:#fff;font-size:13.4px;color:var(--ink-soft)}
-  .overlay b{color:var(--ink)}
-  .overlay .pin{color:var(--amber);flex:none}
 
   .tips{background:#fff;border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
   .tips h3{margin:0 0 8px;font-size:15px}
@@ -98,163 +101,158 @@
       <div><div class="nm grad-text">Livmii</div><div class="sub">社區智能管理助手</div></div>
     </div>
     <h1 class="title">貼文作圖指令　<span class="grad-text">給 AI 生圖直接複製</span></h1>
-    <p class="lede">12 篇貼文的配圖指令，為 ChatGPT（GPT-4o／DALL·E）生圖設計。點每則右上角「複製」即可貼給 AI。中文標題建議自己後製疊字，圖上不放中文最保險。</p>
+    <p class="lede">12 篇貼文的配圖指令，為 ChatGPT（GPT-4o／DALL·E）設計。全部<b>正方形 1:1</b>、文字直接讓 AI 加上去、機器人只當角落小配角。點右上「複製」貼給 AI 即可。</p>
   </div>
 </header>
 
 <main class="wrap">
+  <div class="keytip">
+    <span class="ic">🤖</span>
+    <div>
+      <h3>最關鍵一步：讓機器人「長對」</h3>
+      <p>AI 不認識 Livmii 的機器人，純文字叫它畫，它一定會亂編、每張都不一樣。<b>正確做法：每次生圖時，把官方那張「機器人 LOGO 圖」一起上傳給 ChatGPT</b>，然後說「請參考我上傳的機器人，用一樣的造型」。這樣機器人才會一致又像。</p>
+      <p>下面每則指令都已經寫好「請參考我上傳的 Livmii 機器人圖」，你只要記得<b>先把圖附上去</b>就好。（若某張不想放機器人，把那句刪掉即可。）</p>
+    </div>
+  </div>
+
   <div class="howto">
-    <div class="step"><div class="k">1</div><div class="t">先複製下方 <b>「品牌風格設定」</b>貼給 GPT，讓它記住 Livmii 的配色、風格與機器人吉祥物。等它回「OK」。</div></div>
-    <div class="step"><div class="k">2</div><div class="t">再把 <b>#1～#12 的指令逐張複製</b>貼給 GPT，一次生一張。喜歡第 1 張的機器人，可叫它「後面機器人跟第 1 張一樣」。</div></div>
-    <div class="step"><div class="k">3</div><div class="t">圖生好後，用 <b>Canva 後製疊上中文標題與 CTA</b>（每則的 📌 有標要疊什麼字）。中文交給 AI 生容易出錯字。</div></div>
+    <div class="step"><div class="k">1</div><div class="t">先複製下方<b>「品牌風格設定」</b>貼給 GPT，並<b>附上官方機器人圖</b>，等它回「OK」。</div></div>
+    <div class="step"><div class="k">2</div><div class="t">再把 <b>#1～#12 逐張複製</b>貼給 GPT，一次生一張。全部是<b>正方形</b>，文字 AI 會直接畫上去。</div></div>
+    <div class="step"><div class="k">3</div><div class="t">若字有錯或位置不好，就跟 GPT 說「<b>把某某字改成○○、放在上方</b>」，或最後用 Canva 微調。</div></div>
   </div>
 
   <section class="block" id="app"></section>
 
   <section class="block">
     <div class="tips">
-      <h3>💡 用 GPT 生圖的實用技巧</h3>
+      <h3>💡 生圖不順時這樣做</h3>
       <ol>
-        <li><b>先餵風格、再逐張下需求</b>——整組圖才會像同一系列。</li>
-        <li><b>機器人保持一致</b>——喜歡哪張的機器人，就叫 GPT「跟那張長一樣」，後面延續同一隻。</li>
-        <li><b>中文字自己後製</b>——用 Canva 疊標題／CTA，別讓 AI 生中文（易亂碼）。</li>
-        <li><b>不滿意直接說</b>——「機器人大一點」「背景再亮」「箭頭改漸層」，GPT 會改。</li>
-        <li><b>尺寸</b>——橫式 16:9 適合 FB 貼文、方形 1:1 適合 IG。</li>
+        <li><b>機器人一定要附圖</b>——這是「長對」的唯一關鍵，純文字無解。</li>
+        <li><b>一次只調一件事</b>——「機器人小一點」「背景再亮」「字放上面」，一次改一項最準。</li>
+        <li><b>字錯了直接請它改</b>——GPT 生的中文偶爾會錯，回它「第二行字錯了，應該是○○」。</li>
+        <li><b>要同系列感</b>——生第 2 張起可加一句「風格、配色、機器人跟前一張一致」。</li>
+        <li><b>版面太亂就說「更簡單、多留白」</b>——寧可乾淨也不要塞滿。</li>
       </ol>
     </div>
   </section>
 </main>
 
 <footer class="wrap">
-  品牌色：薄荷綠 #5FD1A8 → 天空藍 #3B9BE8・墨藍字 #2B3A55・暖橘 CTA #F2A33C　｜　本頁供內部作圖使用
+  品牌色：薄荷綠 #5FD1A8 → 天空藍 #3B9BE8・墨藍字 #2B3A55・暖橘 CTA #F2A33C　｜　全部尺寸 1:1・本頁供內部作圖使用
 </footer>
 
 <div class="toast" id="toast">已複製 ✓</div>
 
 <script>
-const SYS=`接下來我要請你幫我畫一系列「Livmii 社區智能管理助手」的社群貼文配圖，
-請所有圖都遵守以下品牌風格，保持同一個系列感：
+const SYS=`接下來我要請你幫我畫一系列「Livmii 社區智能管理助手」的社群貼文配圖（正方形），
+我會附上一張 Livmii 機器人的圖，請所有圖裡的機器人都參考它、保持同一個造型。
 
+請所有圖都遵守以下品牌風格，保持同一個系列感：
 【品牌】Livmii 社區智能管理助手（智慧社區 LINE 管理服務）
-【風格】柔和扁平插畫、明亮清新、圓潤線條、輕盈科技感
-【配色】主色為薄荷綠 #5FD1A8 到天空藍 #3B9BE8 的漸層；
-        文字深墨藍 #2B3A55；背景用明亮的淺藍白，加上柔和的雲朵狀色塊；大量留白
-【吉祥物】一隻白色圓臉的可愛機器人，圓角方形頭、螢幕臉、彎眉笑眼、頭頂一根天線，
-          請讓它出現在每張圖裡（當主角或小配角）
-【重要】圖上請「不要」放任何中文文字，主要文字區域請留白，我會自己後製加字
-【比例】以下每張我會註明是橫式(16:9)或方形(1:1)
+【風格】柔和扁平插畫、明亮清新、圓潤線條、輕盈科技感、大量留白、乾淨不雜亂
+【配色】主色為薄荷綠 #5FD1A8 到天空藍 #3B9BE8 的漸層；文字用深墨藍 #2B3A55；
+        背景用明亮的淺藍白，可加柔和雲朵色塊
+【機器人】請參考我上傳的機器人圖，造型一致；它只當「角落的小配角」，不要占畫面主體
+【文字】圖上的中文字請你直接、正確地加上去（用簡潔的黑體），字要大、好讀
+【尺寸】全部都用正方形 1:1
 
 如果理解了，回我「OK」，我就開始一張一張給你需求。`;
 
+/* p = prompt text (already includes robot-reference + chinese text baked in) */
 const prompts=[
- {n:1,fmt:"16:9",title:"開版定位文",
-  p:`第 1 張，橫式 16:9：
-Livmii 機器人站在畫面左側，開心地比手勢（打招呼）。
-它旁邊有一支手機，手機螢幕顯示 App 的圖文選單（四個淺藍色圓角按鈕，只放圖示不放字）。
-畫面右側是柔和的現代社區大樓群和綠地插畫。
-整體明亮清新，淺藍白背景加雲朵色塊，畫面上半部與左側請留白給我放標題。不要有任何文字。`,
-  o:`主標「智慧生活・從社區開始」＋ Livmii LOGO`},
- {n:2,fmt:"16:9",title:"訪客管理",
-  p:`第 2 張，橫式 16:9：
-一條由左到右的四步驟流程，每一步是一個白色圓形圖示（用綠藍漸層線條串連）：
-第1步手機、第2步停車位、第3步 QR code、第4步打開的閘門。
-Livmii 機器人站在第四步旁邊，像在幫忙放行。
-明亮淺藍背景，每個圖示下方留白給我加字。不要有任何文字。`,
-  o:`「預約→配車位→QR證→放行」＋ 底部「假日訪客不再塞車」`},
- {n:3,fmt:"1:1",title:"報修工單",
-  p:`第 3 張，方形 1:1：
-畫面中央一支手機，螢幕顯示一個報修進度條（三個圓點串成的進度，最上方有一張小小的漏水照片縮圖）。
-Livmii 機器人站在手機旁邊，手上拿著一支小扳手，表情安心。
-明亮淺藍背景，進度條的文字部分留白。不要有任何文字。`,
-  o:`「已上報→處理中→完工」＋「進度看得到」`},
- {n:4,fmt:"16:9",title:"物業後台 B2B",
-  p:`第 4 張，橫式 16:9：
-一台筆電，螢幕顯示一個物業管理後台儀表板：左邊是一張地圖上有多個綠藍漸層的定位標記點，
-右邊有一個圓餅圖和幾根長條圖（純圖表，不要文字）。
-Livmii 機器人站在筆電旁邊，像個小主管，手指向螢幕。
-請保持品牌的明亮淺藍白背景，不要做成深色科技風。不要有任何文字。`,
-  o:`「一個後台，管所有案場」＋ L4 專業方案`},
- {n:5,fmt:"1:1",title:"包租代管",
-  p:`第 5 張，方形 1:1：
-一位房東輕鬆坐著看手機，手機旁邊浮出兩個淺藍色的對話氣泡（氣泡裡只放圖示：一個打勾、一個扳手，不放字）。
-背景是幾棟柔和的公寓大樓插畫。
-Livmii 機器人從旁邊探頭出來，像個小助理。
-明亮清新，氣泡留白給我加字。不要有任何文字。`,
-  o:`氣泡「租金已收 ✓／報修處理中」＋「管越多間，越需要系統」`},
- {n:6,fmt:"1:1",title:"零 App／長輩友善",
-  p:`第 6 張，方形 1:1：
-一位慈祥的阿嬤開心地用手機，手機螢幕顯示超大的圓角按鈕選單（按鈕特別大、只有圖示、方便長輩點）。
-Livmii 機器人在阿嬤旁邊，像在陪伴她。
-畫面角落有一個淺藍色的「禁止下載」小圓標（圖示即可）。
-溫暖明亮的氛圍。不要有任何文字。`,
-  o:`「不用裝 App，阿嬤也會用」＋ 角落「免下載」`},
- {n:7,fmt:"1:1",title:"資料安全",
-  p:`第 7 張，方形 1:1：
-畫面中央一個綠藍漸層的盾牌，盾牌上有一把鎖的圖示。
-Livmii 機器人站在盾牌前面，像個守護者。
-盾牌周圍環繞四個淺藍色圓形小圖示（分別是：加密鎖、雲端備份、多人權限、文件紀錄，只放圖示不放字）。
-保持品牌明亮淺藍背景，不要做成深色風。不要有任何文字。`,
-  o:`「你的社區資料，安全嗎？」＋ 四個 icon 標籤`},
- {n:8,fmt:"16:9",title:"交接／全程留痕",
-  p:`第 8 張，橫式 16:9：
-左右對比構圖。
-左邊：一堆凌亂散落的紙本文件，上面有幾個問號，用灰色調表現混亂。
-右邊：一條乾淨的綠藍漸層數位時間軸，上面有整齊排列的紀錄節點。
-Livmii 機器人站在右邊（整齊的那側），比出讚的手勢。
-中間有一個漸層箭頭從左指向右。不要有任何文字。`,
-  o:`左「換屆就斷光？」右「所有紀錄自動留存」`},
- {n:9,fmt:"1:1",title:"議案投票",
-  p:`第 9 張，方形 1:1：
-畫面中央一支手機，螢幕顯示線上投票介面：一個綠藍漸層的「贊成」按鈕、一個白色的「反對」按鈕（按鈕上不放字），
-下方有一根綠藍漸層的計票長條圖。手機周圍有幾個淺藍色的住戶頭像圖示。
-Livmii 機器人站在手機旁邊，舉著一個小小的投票箱。
-明亮清新。不要有任何文字。`,
-  o:`「線上投票，不再流會」＋「72% 贊成・即時計票」`},
- {n:10,fmt:"16:9",title:"前後對比案例",
-  p:`第 10 張，橫式 16:9：
-左右對比構圖。
-左邊用柔和的灰色調，表現「導入前」的混亂（畫幾個代表煩惱的圖示，如響個不停的電話、雜亂的單據，不放字）。
-右邊用明亮的薄荷綠色調，表現「導入後」的井然有序（畫幾個代表順暢的圖示，如打勾、QR code、手機，不放字）。
-Livmii 機器人站在中間分隔線上，手指向右邊。
-請用品牌的柔和色調，不要用刺眼的大紅大綠。不要有任何文字。`,
-  o:`左「導入前 ✕」清單、右「導入後 ✓」清單`},
- {n:11,fmt:"16:9",title:"L1 免費入門",
-  p:`第 11 張，橫式 16:9：
-一座四階的樓梯，由左下往右上升高，代表 L1、L2、L3、L4 四個方案等級，
-樓梯顏色由薄荷綠漸變到天空藍，最低那一階（L1）用比較亮的顏色特別強調，
-最低那階上方有一個白色圓形標章（留白給我寫「免費」）。
-Livmii 機器人站在最低那一階，開心地指向樓梯上方，像在邀請往上升級。
-明亮清新背景。不要有任何文字。`,
-  o:`L1（免費）／L2／L3／L4 各階名稱 ＋「免費試用」CTA`},
- {n:12,fmt:"16:9",title:"三步驟快速上線",
-  p:`第 12 張，橫式 16:9：
-由左到右三個白色大圓形，用綠藍漸層箭頭串連，每個圓形裡放一個圖示：
-第1個對話氣泡（諮詢）、第2個齒輪（配置）、第3個火箭（上線），
-每個圓形左上角有一個漸層小圓圈（留白給我放數字 1、2、3）。
-Livmii 機器人站在最後的火箭旁邊，開心歡呼。
-底部中央留一塊空間給我放行動按鈕。明亮清新。不要有任何文字。`,
-  o:`「聯絡諮詢→配置方案→上線啟用」＋ 底部橘色 CTA「本月免費評估」`},
+ {n:1,title:"開版定位文",
+  p:`第 1 張，正方形 1:1：
+畫面中央一支手機，螢幕顯示社區 App 的圖文選單（四個淺藍色圓角按鈕，配上鈴鐺、扳手、住戶、對話等小圖示）。
+背景是柔和的社區大樓與綠地插畫。
+右下角放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）比手勢打招呼。
+上方用大字寫標題「智慧生活・從社區開始」，下方小字「住戶用 LINE，管理用後台」。
+明亮清新、大量留白。`},
+ {n:2,title:"訪客管理",
+  p:`第 2 張，正方形 1:1：
+畫面重點是一張「QR 通行證」的手機畫面，加上一個社區大門閘門的簡單插畫。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）。
+上方用大字寫標題「訪客預約，掃碼就進」，下方小字「自動配車位・全程留痕」。
+綠藍漸層點綴、明亮背景、乾淨不雜亂。`},
+ {n:3,title:"報修工單",
+  p:`第 3 張，正方形 1:1：
+畫面中央一支手機，螢幕顯示報修進度（三段進度：已上報、處理中、完工，用綠藍漸層表現）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）拿著小扳手。
+上方大字標題「報修進度，看得到」，下方小字「拍照上報・即時追蹤」。
+明亮清新、留白。`},
+ {n:4,title:"物業後台 B2B",
+  p:`第 4 張，正方形 1:1：
+畫面中央一台筆電，螢幕顯示物業管理後台（地圖定位點＋簡單圖表，用綠藍漸層）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）。
+上方大字標題「一個後台，管所有案場」，下方小字「定位打卡・AI 巡檢・排班報表」。
+保持明亮淺藍白背景，不要深色科技風。`},
+ {n:5,title:"包租代管",
+  p:`第 5 張，正方形 1:1：
+一位房東輕鬆看著手機，手機旁浮出兩個淺藍氣泡（一個打勾、一個扳手圖示）。背景幾棟柔和公寓。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）。
+上方大字標題「管越多間，越需要系統」，下方小字「租金查詢・線上報修一手掌握」。
+明亮清新。`},
+ {n:6,title:"零 App／長輩友善",
+  p:`第 6 張，正方形 1:1：
+一位慈祥的阿嬤開心用手機，手機顯示超大圓角按鈕選單（大按鈕、清楚圖示）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）陪在旁邊。
+上方大字標題「不用裝 App，阿嬤也會用」，下方小字「大按鈕・圖文選單・長輩好上手」。
+溫暖明亮。`},
+ {n:7,title:"資料安全",
+  p:`第 7 張，正方形 1:1：
+畫面中央一個綠藍漸層的盾牌＋鎖的圖示，周圍四個小圖示（加密、備份、權限、紀錄）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）。
+上方大字標題「你的社區資料，安全嗎？」，下方小字「加密・備份・權限分級・全程留痕」。
+明亮淺藍背景，不要深色。`},
+ {n:8,title:"交接／全程留痕",
+  p:`第 8 張，正方形 1:1：
+左右對比：左邊一小疊凌亂紙本加問號（灰色），右邊一條乾淨的綠藍漸層時間軸有整齊節點。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）在整齊那側比讚。
+上方大字標題「換屆交接，不再斷光光」，下方小字「所有紀錄自動留存」。
+明亮清新。`},
+ {n:9,title:"議案投票",
+  p:`第 9 張，正方形 1:1：
+畫面中央一支手機，螢幕顯示線上投票（贊成／反對按鈕＋綠藍漸層計票長條）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）舉著小投票箱。
+上方大字標題「線上投票，不再流會」，下方小字「一鍵投票・即時計票・公告推播」。
+明亮清新。`},
+ {n:10,title:"前後對比案例",
+  p:`第 10 張，正方形 1:1：
+左右對比：左邊灰色調表現混亂（電話響不停、雜亂單據），右邊明亮薄荷綠表現順暢（打勾、QR、手機）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）指向右邊。
+上方大字標題「導入前 vs 導入後」，下方小字「投訴變少，因為住戶自己看得到」。
+用柔和色調，不要刺眼紅綠。`},
+ {n:11,title:"L1 免費入門",
+  p:`第 11 張，正方形 1:1：
+一座四階樓梯，由薄荷綠漸變到天空藍，代表 L1～L4，最低一階特別亮並標「免費」。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）指向樓梯上方。
+上方大字標題「L1 入門，免費先用」，下方小字「用得順，再升級・零綁約」。
+明亮清新。`},
+ {n:12,title:"三步驟快速上線",
+  p:`第 12 張，正方形 1:1：
+由左到右三個圓形步驟，用綠藍漸層箭頭串連：1 對話氣泡（諮詢）、2 齒輪（配置）、3 火箭（上線）。
+角落放一隻小小的 Livmii 機器人（參考我上傳的機器人圖）在火箭旁歡呼。
+上方大字標題「最快幾天就上線」，下方放一個橘色按鈕樣式寫「本月免費評估」。
+明亮清新、行動導向。`},
 ];
 
 const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 const app=document.getElementById("app");
 let html=`<h2>⭐ 第一步：品牌風格設定</h2>
-  <p class="h-note">每次開新對話作圖前，先貼這段給 GPT，等它回「OK」。</p>
+  <p class="h-note">每次開新對話作圖前，先貼這段給 GPT，並附上官方機器人圖，等它回「OK」。</p>
   <div class="snip">
     <div class="bar"><span class="fmt sys">先貼這個</span><span class="lbl">品牌風格設定</span>
       <button class="copy" data-c="sys">📋 複製</button></div>
     <pre id="sys">${esc(SYS)}</pre>
   </div>
   <h2 style="margin-top:34px">📋 第二步：12 張分則指令</h2>
-  <p class="h-note">逐張複製貼給 GPT，一次生一張。📌 是圖生好後你要後製疊上的中文字。</p>`;
+  <p class="h-note">逐張複製貼給 GPT，一次生一張。全部正方形、文字 AI 直接加、記得先附機器人圖。</p>`;
 
 prompts.forEach(x=>{
   html+=`<div class="snip">
-    <div class="bar"><span class="fmt ${x.fmt==="1:1"?"sq":""}">${x.fmt}</span>
+    <div class="bar"><span class="fmt">1:1</span>
       <span class="lbl">#${x.n}　${x.title}</span>
       <button class="copy" data-c="p${x.n}">📋 複製</button></div>
     <pre id="p${x.n}">${esc(x.p)}</pre>
-    <div class="overlay"><span class="pin">📌</span><div><b>你後製疊字：</b>${esc(x.o)}</div></div>
   </div>`;
 });
 app.innerHTML=html;
